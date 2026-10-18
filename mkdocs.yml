@@ -26,13 +26,11 @@ theme:
 nav:
   - Introduction: Index.md
   - Build and run: Build.md
-  - Contributing: Contributing.md
   - Architecture: Architecture.md
-  - Client: Client.md
   - Protocol: Protocol.md
-  - Guides: Guides.md
   - Accessibility: Accessibility.md
   - Technical choices: TechnicalChoices.md
+  - Guides: Guides.md
 
 markdown_extensions:
   - admonition

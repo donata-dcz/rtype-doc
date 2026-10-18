@@ -1,3 +1,8 @@
+---
+title: Accessibility
+description: What is accessible in R-Type, and what is planned.
+---
+
 # Accessibility
 
 We want R-Type to be playable by as many people as possible. This page says what we did so far and what we plan to do.
@@ -24,6 +29,7 @@ We want R-Type to be playable by as many people as possible. This page says what
 | Cognitive | Easy way back | Esc returns to the menu, also from the game. If the connection is lost, the player goes back to the menu with an explanation. |
 | Documentation | Plain Markdown | Readable with a screen reader or any text browser. |
 | Documentation | Command-line options | `-h` and `-p` are explained in the README. |
+| Documentation | Documentation website | Navigation, search, dark and light themes, a visible keyboard focus, and a text description for every diagram. |
 
 ## What we plan
 
@@ -41,4 +47,7 @@ We want R-Type to be playable by as many people as possible. This page says what
 | Cognitive | Controls reminder | Shown before the first game. |
 | Cognitive | No flashing effects | No more than three flashes per second (WCAG 2.3.1). |
 | Cognitive | Easier difficulty | Fewer enemies and slower missiles. |
-| Documentation | Website with search | And a text description for every diagram. |
+
+## Known limitations
+
+The game itself has no screen reader support: it is drawn by Raylib, so only the documentation can be read by a screen reader.

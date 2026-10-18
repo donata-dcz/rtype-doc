@@ -1,85 +1,52 @@
 site_name: R-Type Documentation
 site_description: Documentation of the R-Type project
 site_url: https://donata-dcz.github.io/rtype-doc/
-repo_url: https://github.com/donata-dcz/rtype-doc
-repo_name: donata-dcz/rtype-doc
-edit_uri: edit/main/docs/
+docs_dir: Docs
 
 theme:
   name: material
-  logo: assets/Logo.svg
-  favicon: assets/Logo.svg
   language: en
   palette:
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: custom
-      accent: custom
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to the light theme
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: custom
-      accent: custom
       toggle:
         icon: material/weather-night
         name: Switch to the dark theme
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to the light theme
   features:
-    - navigation.tabs
-    - navigation.sections
-    - navigation.indexes
-    - navigation.top
-    - navigation.footer
-    - search.suggest
     - search.highlight
-    - toc.follow
     - content.code.copy
-    - content.action.edit
-
-extra_css:
-  - assets/extra.css
 
 nav:
   - Home: index.md
-  - The project:
-      - About: project/index.md
-      - Play: project/play.md
-      - Accessibility: project/accessibility.md
-  - Developer docs:
-      - Introduction: dev/index.md
-      - Get started:
-          - dev/get-started/index.md
-          - Build and run: dev/get-started/build-and-run.md
-          - Contributing: dev/get-started/contributing.md
-      - Architecture:
-          - dev/architecture/index.md
-          - Overview: dev/architecture/overview.md
-          - Client: dev/architecture/client.md
-          - Audio: dev/architecture/audio.md
-      - Networking:
-          - dev/networking/index.md
-          - Network protocol: dev/networking/protocol.md
-      - Guides:
-          - dev/guides/index.md
-          - Add a sound: dev/guides/add-a-sound.md
-          - Add an image: dev/guides/add-an-asset.md
-          - Add a message type: dev/guides/add-a-message-type.md
-          - Add a menu option: dev/guides/add-a-menu-option.md
-          - Troubleshooting: dev/guides/troubleshooting.md
+  - About: project/index.md
+  - Play: project/play.md
+  - Accessibility: project/accessibility.md
+  - Build and run: dev/get-started/build-and-run.md
+  - Contributing: dev/get-started/contributing.md
+  - Architecture: dev/architecture/overview.md
+  - Client: dev/architecture/client.md
+  - Audio: dev/architecture/audio.md
+  - Network protocol: dev/networking/protocol.md
+  - Guides:
+      - Add a sound: dev/guides/add-a-sound.md
+      - Add an image: dev/guides/add-an-asset.md
+      - Add a message type: dev/guides/add-a-message-type.md
+      - Add a menu option: dev/guides/add-a-menu-option.md
+      - Troubleshooting: dev/guides/troubleshooting.md
+  - Introduction for developers: dev/index.md
 
 markdown_extensions:
   - admonition
-  - attr_list
-  - md_in_html
   - tables
   - toc:
       permalink: true
-  - pymdownx.details
-  - pymdownx.highlight:
-      anchor_linenums: true
-  - pymdownx.inlinehilite
+  - pymdownx.highlight
   - pymdownx.superfences
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+exclude_docs: |
+  requirements.txt

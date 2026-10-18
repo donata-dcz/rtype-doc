@@ -5,7 +5,7 @@ description: Build the project with CMake and vcpkg, then run the server and the
 
 # Build and run
 
-The dependencies (Raylib 5.5 and Asio) come from vcpkg in manifest mode, so nothing has to be installed by hand.
+The dependencies (Raylib and Asio) come from vcpkg in manifest mode, so nothing has to be installed by hand.
 
 ```bash
 cmake --preset default

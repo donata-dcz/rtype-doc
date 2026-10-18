@@ -12,7 +12,7 @@ description: Build the game, start a server and connect clients.
 - [vcpkg](https://github.com/microsoft/vcpkg), expected in the `vcpkg` folder at the root of the repository: the CMake presets use its toolchain file.
 - On Linux, the system libraries Raylib needs to open a window and play sound (X11 and ALSA development packages). If the build stops on a missing library, vcpkg prints which one.
 
-The dependencies of the project (Raylib 5.5 and Asio) are listed in `vcpkg.json` and installed by vcpkg when you configure, so you do not install them by hand.
+The dependencies of the project (Raylib and Asio) are listed in `vcpkg.json` and installed by vcpkg when you configure, so you do not install them by hand.
 
 ## Build
 

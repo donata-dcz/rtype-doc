@@ -28,7 +28,6 @@ A pull request to `main` can only come from `dev`. The CI checks it.
 | `ci` | Checks the file names (PascalCase) and the GitFlow rule |
 | `release` | Publishes a release when `main` changes |
 | mirror | Copies the repository to the Epitech one |
-| `docs` | Builds and publishes this website |
 
 ## File names
 
@@ -47,18 +46,15 @@ A pull request to `main` can only come from `dev`. The CI checks it.
 
 ## Documentation
 
-This website has its own repository, `rtype-doc`. Its pages are Markdown files in the `docs` folder, and the menu is in `mkdocs.yml`. It is built with [MkDocs](https://www.mkdocs.org/) and the [Material](https://squidfunk.github.io/mkdocs-material/) theme.
+This website is written in Markdown in the `Docs` folder of the repository, and the menu is in `mkdocs.yml` at the root. It is built with [MkDocs](https://www.mkdocs.org/) and the [Material](https://squidfunk.github.io/mkdocs-material/) theme.
 
 To see your changes on your computer:
 
 ```bash
-pip install -r requirements.txt
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r Docs/requirements.txt
 mkdocs serve
 ```
 
-Then open the address printed in the terminal. The pages update when you save.
-
-- Each page has one title, headings in order, and tables with a header row.
-- Every image or diagram needs a text description, written right below it or in the alternative text.
-- A link says where it leads ("see the protocol"), never "click here".
-- If you change the code, change the page in the same pull request. The protocol page must always match `Common`.
+Then open the address printed in the terminal. The pages update when you save. The `.venv` and `site` folders are generated: do not commit them.

@@ -1,9 +1,4 @@
----
-title: Overview
-description: How the client, the server and the shared code fit together.
----
-
-# Architecture overview
+# Architecture
 
 ```text
 +-------------------+          UDP, port 4242          +-------------------+
@@ -26,6 +21,19 @@ description: How the client, the server and the shared code fit together.
 
 This keeps every player seeing the same game, and a modified client cannot move its ship where it wants.
 
+## Repository layout
+
+| Folder | What is inside |
+|--------|----------------|
+| `Engine` | The game engine |
+| `Common` | Code shared by the client and the server |
+| `Server` | The `r-type_server` program |
+| `Client` | The `r-type_client` program (Raylib) |
+| `Tests` | Unit tests |
+| `Assets` | Images and sounds, copied next to the client |
+| `Docs` | The documentation, including this website |
+| `Cmake` | CMake helpers |
+
 ## Data that travels
 
 | Direction | Data | Details |
@@ -33,7 +41,7 @@ This keeps every player seeing the same game, and a modified client cannot move 
 | Client to server | Connect, inputs, ping, disconnect | One byte of keys per frame |
 | Server to client | Accept or reject, snapshots, events, pong | Positions of everything on the screen |
 
-Every message is a UDP datagram with the same 10-byte header. See the [network protocol](../networking/protocol.md) for the exact bytes.
+Every message is a UDP datagram with the same 10-byte header. See the [network protocol](Protocol.md) for the exact bytes.
 
 ## The server
 
@@ -44,7 +52,7 @@ Every message is a UDP datagram with the same 10-byte header. See the [network p
 
 ## The client
 
-The client has one loop that, at each frame, reads the keyboard, talks to the server, plays the sounds and draws. It has two states: the **menu** and the **game**. See [Client](./client.md) and [Audio](./audio.md).
+The client has one loop that, at each frame, reads the keyboard, talks to the server, plays the sounds and draws. It has two states: the **menu** and the **game**. See [Client](client.md).
 
 ## Shared code
 
@@ -58,4 +66,4 @@ The code that both programs include is what must stay identical on both sides:
 | `InputState` | The pressed actions packed in one byte |
 
 !!! warning
-    If you change something in the shared code, you change both programs and the [protocol page](../networking/protocol.md). Update them together.
+    If you change something in the shared code, you change both programs and the [protocol page](Protocol.md). Update them together.

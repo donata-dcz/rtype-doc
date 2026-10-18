@@ -1,7 +1,3 @@
----
-title: Contributing
-description: Branches, CI checks, file names and code style.
----
 
 # Contributing
 

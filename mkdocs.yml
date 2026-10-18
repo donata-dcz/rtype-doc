@@ -2,6 +2,8 @@ site_name: R-Type Documentation
 site_description: Documentation of the R-Type project
 site_url: https://donata-dcz.github.io/rtype-doc/
 docs_dir: Docs
+exclude_docs: |
+  requirements.txt
 
 theme:
   name: material
@@ -22,23 +24,15 @@ theme:
     - content.code.copy
 
 nav:
-  - Home: index.md
-  - About: project/index.md
-  - Play: project/play.md
-  - Accessibility: project/accessibility.md
-  - Build and run: dev/get-started/build-and-run.md
-  - Contributing: dev/get-started/contributing.md
-  - Architecture: dev/architecture/overview.md
-  - Client: dev/architecture/client.md
-  - Audio: dev/architecture/audio.md
-  - Network protocol: dev/networking/protocol.md
-  - Guides:
-      - Add a sound: dev/guides/add-a-sound.md
-      - Add an image: dev/guides/add-an-asset.md
-      - Add a message type: dev/guides/add-a-message-type.md
-      - Add a menu option: dev/guides/add-a-menu-option.md
-      - Troubleshooting: dev/guides/troubleshooting.md
-  - Introduction for developers: dev/index.md
+  - Introduction: index.md
+  - Build and run: build.md
+  - Contributing: contributing.md
+  - Architecture: architecture.md
+  - Client: client.md
+  - Protocol: Protocol.md
+  - Guides: guides.md
+  - Accessibility: Accessibility.md
+  - Technical choices: technicalChoices.md
 
 markdown_extensions:
   - admonition
@@ -46,7 +40,8 @@ markdown_extensions:
   - toc:
       permalink: true
   - pymdownx.highlight
-  - pymdownx.superfences
-
-exclude_docs: |
-  requirements.txt
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format

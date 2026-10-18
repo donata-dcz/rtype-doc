@@ -24,15 +24,15 @@ theme:
     - content.code.copy
 
 nav:
-  - Introduction: index.md
-  - Build and run: build.md
-  - Contributing: contributing.md
-  - Architecture: architecture.md
-  - Client: client.md
+  - Introduction: Index.md
+  - Build and run: Build.md
+  - Contributing: Contributing.md
+  - Architecture: Architecture.md
+  - Client: Client.md
   - Protocol: Protocol.md
-  - Guides: guides.md
+  - Guides: Guides.md
   - Accessibility: Accessibility.md
-  - Technical choices: technicalChoices.md
+  - Technical choices: TechnicalChoices.md
 
 markdown_extensions:
   - admonition

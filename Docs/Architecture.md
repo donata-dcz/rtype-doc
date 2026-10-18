@@ -4,9 +4,9 @@
 
 | Folder | What is inside |
 |--------|----------------|
-| `Engine` | The game engine: ECS, systems, game loop, event bus. It knows nothing about R-Type (see [The engine](engine.md)) |
+| `Engine` | The game engine: ECS, systems, game loop, event bus. It knows nothing about R-Type |
 | `Common` | Code shared by the client and the server (protocol, snapshot, inputs) |
-| `Server` | The `r-type_server` executable (see [Server](server.md)) |
+| `Server` | The `r-type_server` executable |
 | `Client` | The `r-type_client` executable (Raylib) |
 | `Tests` | Unit tests |
 | `Assets` | Images and sounds, copied next to the client executable |
@@ -49,7 +49,7 @@ The code is split in layers that do not know each other's details:
 
 The renderer never needs to know how fast a missile goes or how much damage it does: the server sends a position and a type, nothing else. In the same way, the server never needs to know the rules of the game: it only calls the game.
 
-This is what makes a second game possible: only the game layer and the way the client draws it change. See [Add a new game](add-a-game.md).
+This is what makes a second game possible: only the game layer and the way the client draws it change.
 
 ## Time
 

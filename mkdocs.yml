@@ -31,11 +31,9 @@ nav:
   - Accessibility: Accessibility.md
   - Technical choices: TechnicalChoices.md
   - Guides:
-      - Add a sound: Guides/AddASound.md
-      - Add an image: Guides/AddAnImage.md
-      - Add a message type: Guides/AddAMessageType.md
-      - Add a menu option: Guides/AddAMenuOption.md
-      - Troubleshooting: Guides/Troubleshooting.md
+      - Client: Guides/Client.md
+      - Engine: Guides/Engine.md
+      - Server: Guides/Server.md
 
 markdown_extensions:
   - admonition

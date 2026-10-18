@@ -22,7 +22,8 @@ Supported platforms: **Linux** and **Windows** (both built and tested by the CI)
 | Build the project and run it | [Build and run](Build.md) |
 | See how the project is organized | [Architecture](Architecture.md) |
 | Work on the network | [Protocol](Protocol.md) |
-| Add a sound, a message, an image or a menu option | [Guides](Guides/AddASound.md) |
-| Fix a problem | [Troubleshooting](Guides/Troubleshooting.md) |
+| See how the client is managed | [Client](Guides/Client.md) |
+| See how the engine is managed | [Engine](Guides/Engine.md) |
+| See how the server is managed | [Server](Guides/Server.md) |
 | Know what is accessible in the game | [Accessibility](Accessibility.md) |
 | Understand why we chose these technologies | [Technical choices](TechnicalChoices.md) |

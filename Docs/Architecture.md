@@ -1,69 +1,62 @@
 # Architecture
 
-```text
-+-------------------+          UDP, port 4242          +-------------------+
-|   r-type_client   | <-----------------------------> |   r-type_server   |
-|  menu, drawing,   |   inputs  ---------------->     |  game loop (60 Hz)|
-|  sound, keyboard  |   <---------------  snapshots   |  ECS registry     |
-+-------------------+                                 +-------------------+
-          \                                                   /
-           \________________  Common  ______________________/
-                    (protocol, snapshot, inputs)
-```
-
-*Text description of the diagram: the client and the server exchange UDP datagrams on port 4242. The client sends the keys pressed (inputs). The server sends back the state of the game (snapshots). Both programs use the same `Common` code for the protocol, the snapshots and the inputs.*
-
-## One rule: the server decides
-
-- The **client** sends intentions ("up and shoot are pressed"), never positions.
-- The **server** runs the game 60 times per second (a *tick*), checks the collisions, and sends the result to every client about 30 times per second as a *snapshot*.
-- The **client** draws the last snapshot it received.
-
-This keeps every player seeing the same game, and a modified client cannot move its ship where it wants.
-
-## Repository layout
+## Folders
 
 | Folder | What is inside |
 |--------|----------------|
-| `Engine` | The game engine |
-| `Common` | Code shared by the client and the server |
-| `Server` | The `r-type_server` program |
-| `Client` | The `r-type_client` program (Raylib) |
+| `Engine` | The game engine: ECS, systems, game loop, event bus. It knows nothing about R-Type (see [The engine](engine.md)) |
+| `Common` | Code shared by the client and the server (protocol, snapshot, inputs) |
+| `Server` | The `r-type_server` executable (see [Server](server.md)) |
+| `Client` | The `r-type_client` executable (Raylib) |
 | `Tests` | Unit tests |
-| `Assets` | Images and sounds, copied next to the client |
-| `Docs` | The documentation, including this website |
+| `Assets` | Images and sounds, copied next to the client executable |
+| `Docs` | This documentation |
 | `Cmake` | CMake helpers |
 
-## Data that travels
+## Architecture
 
-| Direction | Data | Details |
-|-----------|------|---------|
-| Client to server | Connect, inputs, ping, disconnect | One byte of keys per frame |
-| Server to client | Accept or reject, snapshots, events, pong | Positions of everything on the screen |
+The game is a client and server game. The **server is the authority**: it runs the game and decides everything. A client only displays the game and sends what the player presses. It never sends a position.
 
-Every message is a UDP datagram with the same 10-byte header. See the [network protocol](Protocol.md) for the exact bytes.
+```mermaid
+flowchart LR
+    Player([Player]) -->|keys| Client
+    Client -->|"Input (UDP)"| Network
+    subgraph Server["Server program"]
+        Network["UdpServer (network thread)"] -->|received packets| Loop["GameLoop (game thread)"]
+        Loop -->|"SetInput, Tick"| Game["Game (the rules)"]
+        Game -->|uses| Engine[("Engine: ECS, systems, event bus")]
+        Game -->|BuildSnapshot| Loop
+        Loop -->|snapshot| Network
+    end
+    Network -->|"Snapshot (UDP)"| Client
+    Client -->|draws| Screen([Screen])
+```
 
-## The server
+Text description of the diagram: the player presses keys, and the client sends them to the server as `Input` messages over UDP. Inside the server, the network thread hands the received packets to the game thread. The game loop gives the inputs to the game and makes it advance with `Tick`. The game is built with the engine (entities, components and systems). Every second tick, the loop asks the game for a snapshot, and the network thread sends it to every client over UDP. The client draws the last snapshot on the screen.
 
-- A session is identified by the address and the port of the client (`IP:port`).
-- At most 4 players can play at the same time.
-- A player who sends nothing for 3 seconds is removed with its ship.
-- The game state is kept in an ECS registry (entities, components and systems).
+## Layers
 
-## The client
+The code is split in layers that do not know each other's details:
 
-The client has one loop that, at each frame, reads the keyboard, talks to the server, plays the sounds and draws. It has two states: the **menu** and the **game**. See [Client](client.md).
+| Layer | Where | Role |
+|-------|-------|------|
+| Engine | `Engine` | Tools to build a game: entities, components, systems, fixed-step loop, events. The same for every game |
+| Game | `rtype::Game` | The rules of R-Type, written with the engine. The only thing the server knows about the game is [six calls](server.md#how-the-server-uses-a-game) |
+| Server | `Server` | Network thread, sessions, the 60 Hz loop, snapshots |
+| Networking | `Client` (`ServerConnection`), `Common` | Sends inputs, receives snapshots, tracks the connection status. The packet format is shared |
+| Rendering | `Client` (`SnapshotRenderer`, `Starfield`, `Menu`, `MenuRenderer`) | Draws. Needs only the types and positions of the entities |
+| Audio | `Client` (`Audio::AudioSystem`) | Music and sound effects |
 
-## Shared code
+The renderer never needs to know how fast a missile goes or how much damage it does: the server sends a position and a type, nothing else. In the same way, the server never needs to know the rules of the game: it only calls the game.
 
-The code that both programs include is what must stay identical on both sides:
+This is what makes a second game possible: only the game layer and the way the client draws it change. See [Add a new game](add-a-game.md).
 
-| Part | Role |
-|------|------|
-| `Protocol` | The packet header, the message types, `BuildPacket` and `ReadHeader` |
-| `Binary` | Reading and writing bytes (`BinaryReader`, `BinaryWriter`) |
-| `Snapshot` | What the client needs to draw one moment of the game |
-| `InputState` | The pressed actions packed in one byte |
+## Time
 
-!!! warning
-    If you change something in the shared code, you change both programs and the [protocol page](Protocol.md). Update them together.
+The server advances the game with a **fixed step**: each tick moves the game forward by exactly 1/60 s, whatever the speed of the computer. It sends a snapshot every second tick, which is 30 times per second. The client sends its inputs once per frame (60 per second). The scrolling of the star-field uses timers as well.
+
+## The game world
+
+- The world is `800 x 600` units. `(0, 0)` is the **top-left corner**.
+- Sizes: ship `99 x 51`, player missile `16 x 4`, Bydos `48 x 36`, enemy missile `16 x 4`.
+- Up to 4 players (ids 0 to 3) and 128 entities per snapshot.

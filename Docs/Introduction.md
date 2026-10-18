@@ -19,11 +19,10 @@ Supported platforms: **Linux** and **Windows** (both built and tested by the CI)
 
 | If you want to... | Read |
 |-------------------|------|
-| Build the project and run it | [Build and run](build.md) |
-| Send your work to the repository | [Contributing](contributing.md) |
-| See how the project is organized | [Architecture](architecture.md) |
-| Work on the menu, the window, the drawing or the sound | [Client](client.md) |
+| Build the project and run it | [Build and run](Build.md) |
+| See how the project is organized | [Architecture](Architecture.md) |
 | Work on the network | [Protocol](Protocol.md) |
-| Add a sound, a message, an image or a menu option, or fix a problem | [Guides](guides.md) |
+| Add a sound, a message, an image or a menu option | [Guides](Guides/AddASound.md) |
+| Fix a problem | [Troubleshooting](Guides/Troubleshooting.md) |
 | Know what is accessible in the game | [Accessibility](Accessibility.md) |
-| Understand why we chose these technologies | [Technical choices](technicalChoices.md) |
+| Understand why we chose these technologies | [Technical choices](TechnicalChoices.md) |

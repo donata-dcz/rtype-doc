@@ -30,7 +30,12 @@ nav:
   - Protocol: Protocol.md
   - Accessibility: Accessibility.md
   - Technical choices: TechnicalChoices.md
-  - Guides: Guides.md
+  - Guides:
+      - Add a sound: Guides/AddASound.md
+      - Add an image: Guides/AddAnImage.md
+      - Add a message type: Guides/AddAMessageType.md
+      - Add a menu option: Guides/AddAMenuOption.md
+      - Troubleshooting: Guides/Troubleshooting.md
 
 markdown_extensions:
   - admonition

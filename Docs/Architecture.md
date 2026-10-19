@@ -17,21 +17,6 @@
 
 The game is a client and server game. The **server is the authority**: it runs the game and decides everything. A client only displays the game and sends what the player presses. It never sends a position.
 
-```mermaid
-flowchart LR
-    Player([Player]) -->|keys| Client
-    Client -->|"Input (UDP)"| Network
-    subgraph Server["Server program"]
-        Network["UdpServer (network thread)"] -->|received packets| Loop["GameLoop (game thread)"]
-        Loop -->|"SetInput, Tick"| Game["Game (the rules)"]
-        Game -->|uses| Engine[("Engine: ECS, systems, event bus")]
-        Game -->|BuildSnapshot| Loop
-        Loop -->|snapshot| Network
-    end
-    Network -->|"Snapshot (UDP)"| Client
-    Client -->|draws| Screen([Screen])
-```
-
 Text description of the diagram: the player presses keys, and the client sends them to the server as `Input` messages over UDP. Inside the server, the network thread hands the received packets to the game thread. The game loop gives the inputs to the game and makes it advance with `Tick`. The game is built with the engine (entities, components and systems). Every second tick, the loop asks the game for a snapshot, and the network thread sends it to every client over UDP. The client draws the last snapshot on the screen.
 
 ## Layers

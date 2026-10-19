@@ -3,10 +3,10 @@
 The client is the `r-type_client` program. It opens a window with Raylib, shows a menu, connects to the server, sends the keyboard, and draws what the server says.
 
 ```bash
-./build/default/Server/r-type_server [-h <ip-adress> -p <port>]
+./build/default/Client/r-type_client [-h <host>] [-p <port>]
 ```
 
-It listens on UDP port `4242` unless `-p` gives another one.
+It connects to `127.0.0.1:4242` unless `-h` and `-p` say otherwise. **Play** uses these values: the menu does not ask for an address.
 
 ## Connection status
 
@@ -40,3 +40,9 @@ The menu has two screens: the main one (Play, Options, Quit) and the options (Vo
 
 All the sound is in one class, `Audio::AudioSystem` (`Client/Include/Client/Audio.hpp` and `Client/Src/Audio.cpp`). 
 The sounds are in `Assets/Sounds`, next to the client. Their names are written in `Audio.hpp`:
+
+## At each frame
+
+1. `ServerConnection::Update` reads the packets received (network thread, Asio) and updates the status.
+2. In the menu: `Menu::Update` returns an action (`Connect` or `Quit`).
+3. In a game: `ReadKeyboard` builds an `InputState`, `SendInput` sends it, `SnapshotRenderer::Draw` draws the last snapshot.

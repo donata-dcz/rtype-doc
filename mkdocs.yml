@@ -27,7 +27,7 @@ theme:
     - content.code.copy
 
 nav:
-  - Introduction: Introduction.md
+  - Introduction.md
   - Project:
       - Introduction: Project/Introduction.md
       - Download:

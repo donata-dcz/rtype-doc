@@ -11,7 +11,7 @@ It is cloned automatically by CMake on the first configuration.
 
 ### Pre-built binaries
 
-Every [release](https://github.com/alexis801/RType/releases) of the project has binaries for Linux and Windows, so you can play without building. To work on the code, build it as below.
+Every [release](https://github.com/donata-dcz/rtype-doc/releases) of the project has binaries for Linux and Windows, so you can play without building. To work on the code, build it as below.
 
 ### Build
 

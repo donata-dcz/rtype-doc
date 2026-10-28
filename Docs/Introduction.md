@@ -5,11 +5,11 @@ R-Type is a networked remake of the classic side-scrolling shoot'em up. Several 
 ## Play now
 
 1. **Download the game** for your platform. R-Type is available for Windows (x64) and Linux (x64).
-    Every player needs the **client**. One computer also runs the **server**, and every client connects to it. See the [client](Download/Client.md) and [server](Download/Server.md) pages for details.
+    Every player needs the **client**. One computer also runs the **server**, and every client connects to it. See the [client](Project/Download/Client) and [server](Project/Download/Server) pages for details.
 
-2. **Start the server, then the clients.** The steps are in [Launch the game](Launch.md).
+2. **Start the server, then the clients.** The steps are in [Launch the game](Project/Launch).
 
-3. **Play and enjoy.** Find out more about the choices behind the game in the [technical choices](TechnicalChoices.md).
+3. **Play and enjoy.** Find out more about the choices behind the game in the [technical choices](Project/TechnicalChoices.md).
 
 ## How it works
 
@@ -22,7 +22,7 @@ R-Type is made of two independent programs that communicate over a binary UDP pr
 
 ## Want to contribute?
 
-The [developer documentation](../Developer/Introduction.md) explains how to build the project, its architecture, the network protocol, and how to add a new game.
+The [developer documentation](Developer/Introduction) explains how to build the project, its architecture, the network protocol, and how to add a new game.
 
 ## Authors
 

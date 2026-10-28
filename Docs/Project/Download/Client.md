@@ -8,11 +8,11 @@ Choose the archive for your system, then unzip it.
 
 === "Windows"
 
-    [Download for Windows (x64)](../../downloads/rtype-client-windows.zip){ .md-button .md-button--primary }
+    [Download for Windows (x64)](../../downloads/r-type-windows-x64.zip){ .md-button .md-button--primary }
 
 === "Linux"
 
-    [Download for Linux (x64)](../../downloads/rtype-client-linux.zip){ .md-button .md-button--primary }
+    [Download for Linux (x64)](../../downloads/r-type-linux-x64.tar.gz){ .md-button .md-button--primary }
 
 Keep the `Assets` folder next to the executable: it holds the images and sounds.
 

@@ -24,16 +24,23 @@ theme:
     - content.code.copy
 
 nav:
-  - Introduction: Introduction.md
-  - Build and run: Build.md
-  - Architecture: Architecture.md
-  - Protocol: Protocol.md
-  - Accessibility: Accessibility.md
-  - Technical choices: TechnicalChoices.md
-  - Guides:
-      - Client: Guides/Client.md
-      - Engine: Guides/Engine.md
-      - Server: Guides/Server.md
+  - Project :
+    - Introduction : Project/Introduction
+    - Download :
+      - R-Type Client : Project/Client.md
+      - R-Type Server : Project/Server.md
+    - Launch the game : Project/Launch.md
+    - Technical choices: Project/TechnicalChoices.md
+  - Developer :
+    - Introduction: Developer/Introduction.md
+    - Build and run: Developer/Build.md
+    - Architecture: Developer/Architecture.md
+    - Protocol: Developer/Protocol.md
+    - Accessibility: Developer/Accessibility.md
+    - Guides:
+        - Client: Developer/Guides/Client.md
+        - Engine: Developer/Guides/Engine.md
+        - Server: Developer/Guides/Server.md
 
 markdown_extensions:
   - admonition

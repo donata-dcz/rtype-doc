@@ -26,4 +26,5 @@ Supported platforms: **Linux** and **Windows** (both built and tested by the CI)
 | See how the engine is managed | [Engine](Guides/Engine.md) |
 | See how the server is managed | [Server](Guides/Server.md) |
 | Know what is accessible in the game | [Accessibility](Accessibility.md) |
-| Understand why we chose these technologies | [Technical choices](TechnicalChoices.md) |
+| Build another game on the engine | [Add a new game](Guides/AddAGame.md) |
+| Add a sound, an image, a message or a menu option | [Guides](Guides.md) |

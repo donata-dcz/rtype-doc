@@ -24,6 +24,7 @@ We want R-Type to be playable by as many people as possible. This page says what
 | Cognitive | Easy way back | Esc returns to the menu, also from the game. If the connection is lost, the player goes back to the menu with an explanation. |
 | Documentation | Plain Markdown | Readable with a screen reader or any text browser. |
 | Documentation | Command-line options | `-h` and `-p` are explained in the README. |
+| Documentation | Website with search | The documentation is a searchable website. |
 
 ## What we plan
 
@@ -41,4 +42,4 @@ We want R-Type to be playable by as many people as possible. This page says what
 | Cognitive | Controls reminder | Shown before the first game. |
 | Cognitive | No flashing effects | No more than three flashes per second (WCAG 2.3.1). |
 | Cognitive | Easier difficulty | Fewer enemies and slower missiles. |
-| Documentation | Website with search | And a text description for every diagram. |
+| Documentation | Text description for every diagram | Adding Diagrams architecture. |

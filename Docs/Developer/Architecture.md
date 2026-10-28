@@ -6,6 +6,7 @@
 |--------|----------------|
 | `Engine` | The game engine: ECS, systems, game loop, event bus. It knows nothing about R-Type |
 | `Common` | Code shared by the client and the server (protocol, snapshot, inputs) |
+| `Game` | The games built on the engine: `Game/RType` (to add a new game, see [Add a new game](Guides/AddAGame.md)) |
 | `Server` | The `r-type_server` executable |
 | `Client` | The `r-type_client` executable (Raylib) |
 | `Tests` | Unit tests |
@@ -13,7 +14,7 @@
 | `Docs` | This documentation |
 | `Cmake` | CMake helpers |
 
-## Architecture
+## Overview
 
 The game is a client and server game. The **server is the authority**: it runs the game and decides everything. A client only displays the game and sends what the player presses. It never sends a position.
 
@@ -26,7 +27,7 @@ The code is split in layers that do not know each other's details:
 | Layer | Where | Role |
 |-------|-------|------|
 | Engine | `Engine` | Tools to build a game: entities, components, systems, fixed-step loop, events. The same for every game |
-| Game | `rtype::Game` | The rules of R-Type, written with the engine. The only thing the server knows about the game is [six calls](server.md#how-the-server-uses-a-game) |
+| Game | `rtype::Game` | The rules of R-Type, written with the engine. |
 | Server | `Server` | Network thread, sessions, the 60 Hz loop, snapshots |
 | Networking | `Client` (`ServerConnection`), `Common` | Sends inputs, receives snapshots, tracks the connection status. The packet format is shared |
 | Rendering | `Client` (`SnapshotRenderer`, `Starfield`, `Menu`, `MenuRenderer`) | Draws. Needs only the types and positions of the entities |

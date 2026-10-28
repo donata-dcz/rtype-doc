@@ -231,7 +231,7 @@ Magic V  Type Sequence    Size  Len Name ("Player")
 Server broadcasts 1 player and 1 entity at tick 120:
 
 ```text
-52 54 01 83 00 00 00 3D 00 18 00 00 00 78 01 00 01 03 00 00 00 C8 00 01 00 00 00 00 01 00 3C 00 5A
+52 54 01 83 00 00 00 3D 00 17 00 00 00 78 01 00 01 03 00 00 00 C8 00 01 00 00 00 00 01 00 3C 00 5A
 |---| |  |  |-----------| |-| |-----------| || |  |  |-----------| |---| |-----------| |  |---| |---|
 Magic V  Type Sequence    Size Tick (120)   PC ID Fl Lives Score   EC    Entity ID   T  X(60) Y(90)
 ```

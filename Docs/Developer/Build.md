@@ -9,6 +9,10 @@
 Third-party libraries (Raylib, Asio) are handled by [vcpkg](https://vcpkg.io/).
 It is cloned automatically by CMake on the first configuration.
 
+### Pre-built binaries
+
+Every [release](https://github.com/alexis801/RType/releases) of the project has binaries for Linux and Windows, so you can play without building. To work on the code, build it as below.
+
 ### Build
 
 Run both commands from the root of the repository:

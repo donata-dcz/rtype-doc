@@ -103,7 +103,6 @@ ctest --test-dir build/default
 |--------|---------|
 | `Engine/` | Game engine (generic, no R-Type logic) |
 | `Common/` | Code shared by the client and the server (network protocol) |
-| `Game/` | The games built on the engine: `RType/` (networked) and `Pacman/` (local example) |
 | `Server/` | Authoritative game server |
 | `Client/` | Graphical client |
 | `Tests/` | Unit tests |
@@ -113,24 +112,9 @@ ctest --test-dir build/default
 
 ---
 
-## Protocol
-
-The R-Type network protocol is described in the [R-Type Protocol Documentation](./Docs/Developer/Protocol.md).
-
----
-
 ## Documentation
 
-The documentation is a website: <https://donata-dcz.github.io/rtype-doc/>. It has a player part (download, launch) and a developer part (architecture, guides, how to add a new game). The sources are in `Docs/`.
-
-To read or edit it locally, from the root of the repository:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r Docs/requirements.txt
-mkdocs serve
-```
+The documentation is fully available deployed on [Github Pages](https://donata-dcz.github.io/rtype-doc/Introduction/).
 
 ---
 

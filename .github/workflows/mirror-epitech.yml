@@ -1,0 +1,43 @@
+name: Rtype CD
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  mirror-to-epitech:
+    name: Déploiement du Code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Vérification des secrets
+        shell: bash
+        run: |
+          if [ -z "${{ secrets.GIT_RTYPE_REPO }}" ]; then
+            echo "Erreur: le secret GIT_RTYPE_REPO est vide ou introuvable."
+            exit 1
+          fi
+
+          if [ -z "${{ secrets.GIT_SSH_PRIVATE_KEY }}" ]; then
+            echo "Erreur: le secret GIT_SSH_PRIVATE_KEY est vide ou introuvable."
+            exit 1
+          fi
+
+          echo "Succès: les secrets existent."
+
+      - name: Git checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Mirroring step
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url: ${{ secrets.GIT_RTYPE_REPO }}
+          ssh_private_key: ${{ secrets.GIT_SSH_PRIVATE_KEY }}

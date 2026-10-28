@@ -1,0 +1,12 @@
+{
+  "name": "r-type",
+  "version": "0.1.0",
+  "builtin-baseline": "434307da09bc05b2c86996dccc8b2351fc0d5d37",
+  "overrides": [
+    {
+      "name": "raylib",
+      "version": "5.5"
+    }
+  ],
+  "dependencies": ["raylib", "asio", "gtest"]
+}

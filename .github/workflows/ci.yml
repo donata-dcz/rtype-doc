@@ -1,0 +1,83 @@
+name: Rtype CI
+
+on:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  norm-tests:
+    name: Tests de normes
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker:latest
+
+    steps:
+      - name: Vérification du GitFlow
+        if: github.base_ref == 'main'
+        shell: bash
+        run: |
+          if [ "${{ github.head_ref }}" != "dev" ]; then
+            echo "Erreur: '${{ github.head_ref }}' n'a pas le droit d'être fusionnée dans 'main'."
+            echo "La branche 'main' n'accepte que des Pull Requests provenant de la branche 'dev'."
+            exit 1
+          fi
+          echo "Succès: Fusion de dev vers main autorisée."
+
+      - name: Récupération du code
+        uses: actions/checkout@v4
+
+      - name: Vérification des noms des fichiers
+        shell: bash
+        run: |
+          echo "Vérification du respect de la norme PascalCase..."
+          ERROR=0
+
+          while read -r filepath; do
+            filename=$(basename "$filepath")
+            filename_without_ext="${filename%.*}"
+
+            if [[ ! "$filename_without_ext" =~ ^[A-Z][a-zA-Z0-9]*$ ]]; then
+              echo "Erreur de norme: $filepath ne respecte pas la convention PascalCase."
+              ERROR=1
+            fi
+          done < <(find . -type f \
+            -not -path './.git/*' \
+            -not -path './.github/*' \
+            -not -path './.vscode/*' \
+            -not -path './build/*' \
+            -not -name '.*' \
+            -not -name 'CMakeLists.txt' \
+            -not -name '*.cmake' \
+            -not -name 'conanfile.*' \
+            -not -name 'vcpkg.json' \
+            -not -name 'LICENSE' \
+            -not -name '*.md' \
+            -not -name '*.cfg' \
+            -not -name '*.code-workspace')
+
+          if [ $ERROR -eq 1 ]; then
+            echo "Erreur: Certains fichiers ne respectent pas la convention PascalCase."
+            exit 1
+          fi
+
+          echo "Succès: Tous les fichiers respectent la convention PascalCase."
+
+  build-test:
+    name: Test de Compilation
+    needs: norm-tests
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker:latest
+
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v4
+      - name: Compilation du code (Partie Serveur)
+        run: echo "skip test"
+
+      - name: Compilation du code (Partie Client)
+        run: echo "skip test"

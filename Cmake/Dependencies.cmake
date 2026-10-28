@@ -1,0 +1,13 @@
+find_package(raylib CONFIG REQUIRED)
+find_package(glfw3 CONFIG REQUIRED)
+find_package(asio CONFIG REQUIRED)
+find_package(GTest CONFIG REQUIRED)
+find_package(Threads REQUIRED)
+
+add_library(asio_headers INTERFACE)
+target_link_libraries(asio_headers INTERFACE asio::asio Threads::Threads)
+target_compile_definitions(asio_headers INTERFACE ASIO_STANDALONE)
+if(WIN32)
+    target_link_libraries(asio_headers INTERFACE ws2_32 mswsock)
+    target_compile_definitions(asio_headers INTERFACE _WIN32_WINNT=0x0A00 WIN32_LEAN_AND_MEAN NOMINMAX)
+endif()

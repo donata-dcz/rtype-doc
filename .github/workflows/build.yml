@@ -1,0 +1,82 @@
+name: Build
+
+on:
+  pull_request:
+    branches: [dev, main]
+  push:
+    branches: [dev]
+  workflow_call:
+
+env:
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-cache
+
+jobs:
+  build:
+    name: Build (${{ matrix.name }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux
+            os: ubuntu-latest
+            cmake_args: -DCMAKE_BUILD_TYPE=Release
+            archive: r-type-linux-x64.tar.gz
+          - name: windows
+            os: windows-latest
+            cmake_args: -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static
+            archive: r-type-windows-x64.zip
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install system dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential pkg-config curl zip unzip tar \
+            autoconf autoconf-archive automake libtool \
+            xorg-dev libxkbcommon-dev libwayland-dev wayland-protocols \
+            libgl1-mesa-dev libglu1-mesa-dev
+
+      - name: Cache vcpkg packages
+        uses: actions/cache@v4
+        with:
+          path: .vcpkg-cache
+          key: vcpkg-${{ matrix.name }}-${{ hashFiles('vcpkg.json') }}
+          restore-keys: vcpkg-${{ matrix.name }}-
+
+      - name: Configure, build and test
+        run: |
+          mkdir -p .vcpkg-cache
+          cmake --preset default ${{ matrix.cmake_args }}
+          cmake --build --preset default --config Release
+          ctest --test-dir build/default -C Release --output-on-failure
+
+      - name: Package
+        run: |
+          mkdir -p dist/r-type
+          find build/default -type f \( \
+            -name "r-type_client" -o -name "r-type_server" -o \
+            -name "r-type_client.exe" -o -name "r-type_server.exe" \) \
+            -exec cp {} dist/r-type/ \;
+          cp -r Assets dist/r-type/ 2>/dev/null || true
+
+      - name: Create archive (Linux)
+        if: runner.os == 'Linux'
+        run: tar -czf ${{ matrix.archive }} -C dist r-type
+
+      - name: Create archive (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: Compress-Archive -Path dist/r-type -DestinationPath ${{ matrix.archive }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r-type-${{ matrix.name }}
+          path: ${{ matrix.archive }}
+          if-no-files-found: error

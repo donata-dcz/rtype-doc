@@ -20,27 +20,34 @@ theme:
         icon: material/weather-sunny
         name: Switch to the light theme
   features:
+    - navigation.sections
+    - navigation.top
+    - search.suggest
     - search.highlight
     - content.code.copy
 
 nav:
-  - Project :
-    - Introduction : Project/Introduction
-    - Download :
-      - R-Type Client : Project/Client.md
-      - R-Type Server : Project/Server.md
-    - Launch the game : Project/Launch.md
-    - Technical choices: Project/TechnicalChoices.md
-  - Developer :
-    - Introduction: Developer/Introduction.md
-    - Build and run: Developer/Build.md
-    - Architecture: Developer/Architecture.md
-    - Protocol: Developer/Protocol.md
-    - Accessibility: Developer/Accessibility.md
-    - Guides:
-        - Client: Developer/Guides/Client.md
-        - Engine: Developer/Guides/Engine.md
-        - Server: Developer/Guides/Server.md
+  - Project:
+      - Introduction: Project/Introduction.md
+      - Download:
+          - R-Type Client: Project/Download/Client.md
+          - R-Type Server: Project/Download/Server.md
+      - Launch the game: Project/Launch.md
+      - Technical choices: Project/TechnicalChoices.md
+  - Developer:
+      - Introduction: Developer/Introduction.md
+      - Build and run: Developer/Build.md
+      - Architecture: Developer/Architecture.md
+      - Code map: Developer/CodeMap.md
+      - Protocol: Developer/Protocol.md
+      - Guides:
+          - How-to guides: Developer/Guides.md
+          - Client: Developer/Guides/Client.md
+          - Engine: Developer/Guides/Engine.md
+          - Server: Developer/Guides/Server.md
+          - Add a new game: Developer/Guides/AddAGame.md
+      - Accessibility: Developer/Accessibility.md
+      - Known limits: Developer/KnownLimits.md
 
 markdown_extensions:
   - admonition

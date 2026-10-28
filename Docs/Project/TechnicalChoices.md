@@ -1,113 +1,56 @@
-# Document de décision technique - Choix des bibliothèques graphiques et réseau
+# Technical choices
 
-## Contexte
+Each choice below says what was chosen, what the alternatives were, and why. The "why" of the choices marked *(to confirm)* is deduced from the code by the author of this page: the team should check it matches what was really decided.
 
-Le projet nécessite deux composants techniques principaux :
+## Graphics: Raylib
 
-* **Affichage graphique** : création de la fenêtre, affichage des éléments, gestion du clavier et de la souris.
-* **Communication réseau** : échange de données entre plusieurs instances du programme, avec la possibilité de gérer plusieurs connexions sans bloquer l'application.
+**Alternatives:** SDL, SFML, OpenGL directly.
 
-L'objectif est d'utiliser des bibliothèques **légères, simples à intégrer et compatibles avec le langage C++**, tout en évitant d'ajouter une complexité inutile au projet.
+Raylib gives a window, keyboard and mouse input, 2D drawing, textures and audio with a small, simple API, and it is portable. OpenGL alone would mean writing the window and context handling ourselves. SDL is more complete but more low-level: Raylib gets a working display with much less code. Raylib is only used in `Client` and in the Pacman executable: the engine and the server do not depend on it.
 
----
+## Network library: Asio
 
-# Bibliothèque graphique - Raylib
+**Alternatives:** Boost.Asio, the system socket API, a higher-level networking library.
 
-## Options étudiées
+Standalone Asio is a C++ library that hides the differences between Linux and Windows sockets and offers asynchronous I/O without blocking the program. It is header-only (no Boost needed) and leaves us free to define our own protocol, which a higher-level library would not. Asio is hidden inside `.cpp` files (`NetworkClient`, `UdpServer`): the rest of the code only sees bytes.
 
-Plusieurs solutions ont été envisagées :
+## Transport: UDP *(to confirm)*
 
-* Raylib
-* SDL
-* SFML
-* OpenGL utilisé directement
+**Alternative:** TCP.
 
-## Choix
+A shoot'em up sends the full state many times per second, so an old packet is useless once a newer one exists. UDP has no retransmission and no head-of-line blocking, which fits. The price is paid in the protocol: sequence numbers, the client ignoring an older snapshot than the last one, the periodic `Input` as a "still alive" signal, and a 3 s session timeout. See [Protocol](../Developer/Protocol.md) and [Known limits](../Developer/KnownLimits.md).
 
-Nous avons choisi **Raylib** pour la partie graphique.
+## Authoritative server *(to confirm)*
 
-## Raisons
+The server runs the game and the clients only send keys and draw. A client cannot cheat on a position, and every player sees the same world. The cost: no prediction on the client, the screen is 30 snapshots per second.
 
-Raylib répond directement aux besoins du projet tout en restant simple à utiliser.
+## Binary protocol, written by hand
 
-Ses principaux avantages sont :
+Big-endian fields, a fixed 10-byte header, a 1400-byte maximum so a message fits in one datagram. `BinaryReader` checks every read, so a malformed packet from the network cannot read outside the buffer. No serialization library: the format is small and we keep full control of it.
 
-* Une interface de programmation simple et intuitive.
-* Une bibliothèque légère.
-* Une bonne compatibilité avec le C++.
-* La gestion de la fenêtre et des entrées utilisateur.
-* La possibilité de réaliser du rendu en deux ou trois dimensions.
-* Une bonne portabilité entre les différents systèmes.
-* Une prise en main rapide permettant de faciliter le développement et les essais.
+## Own ECS in the engine *(to confirm)*
 
-### Pourquoi ne pas utiliser OpenGL directement ?
+Entities are numbers, components are plain structs, systems are classes. A game is a list of systems and a registry; the engine knows nothing about R-Type, which is how a second game (Pacman) could be built on it. See [The engine](../Developer/Guides/Engine.md).
 
-OpenGL est une solution plus bas niveau. Son utilisation aurait nécessité de gérer nous-mêmes plusieurs éléments supplémentaires, notamment la création de la fenêtre, la gestion du contexte graphique et différentes opérations liées au rendu.
+## Fixed time step
 
-Cela aurait augmenté la complexité du projet sans apporter de bénéfice nécessaire à nos besoins.
+`Engine::GameLoop` advances the game by 1/60 s steps with an accumulator (capped at 0.25 s so a long pause does not cause a burst of steps). The simulation is the same whatever the frame rate, and a clock can be injected, which makes the loop testable.
 
-### Pourquoi ne pas utiliser SDL ?
+## Two threads on the server
 
-SDL est une bibliothèque très complète et adaptée au développement multimédia. Cependant, elle fournit une approche davantage orientée bas niveau.
+One thread for the network (Asio), one for the game. They share only a mutex-protected list of received packets, and sends are posted to the network thread, so the game code never has to be thread-safe.
 
-Raylib correspond mieux à notre besoin car elle permet d'obtenir rapidement un affichage fonctionnel avec une quantité de code réduite.
+## Build: C++20, CMake presets, vcpkg *(to confirm)*
 
----
+C++20 for `std::span`, concepts and similar tools. CMake presets give the same two commands on Linux and Windows. vcpkg in manifest mode downloads Raylib and Asio, so nothing is installed by hand.
 
-# Bibliothèque réseau - ASIO
+## Summary
 
-## Options étudiées
-
-Plusieurs solutions ont été envisagées :
-
-* ASIO
-* Boost ASIO
-* Les interfaces de communication réseau natives du système
-* Une bibliothèque réseau de niveau plus élevé
-
-## Choix
-
-Nous avons choisi **ASIO** pour la communication réseau.
-
-## Raisons
-
-ASIO permet de gérer les communications réseau tout en conservant une bonne maîtrise de l'architecture du projet.
-
-Ses principaux avantages sont :
-
-* Une interface adaptée au C++.
-* La gestion des communications de manière asynchrone.
-* La prise en charge des communications TCP et UDP.
-* Une bonne portabilité entre les différents systèmes.
-* La possibilité de gérer plusieurs connexions.
-* La possibilité de construire notre propre protocole de communication.
-* L'absence de dépendance à l'ensemble de la bibliothèque Boost dans le cas d'une utilisation autonome.
-
-### Pourquoi ne pas utiliser directement les interfaces réseau du système ?
-
-L'utilisation directe des interfaces réseau aurait obligé le projet à gérer lui-même les différences entre les systèmes ainsi que la logique permettant d'effectuer des communications sans bloquer le programme.
-
-ASIO fournit déjà cette abstraction et permet donc de réduire la quantité de code spécifique au système.
-
-### Pourquoi ne pas utiliser une bibliothèque réseau de niveau plus élevé ?
-
-Nous souhaitons conserver la maîtrise du protocole et du format des données échangées entre les différentes instances du programme.
-
-ASIO fournit les fonctionnalités nécessaires à la communication tout en nous laissant la liberté de définir notre propre fonctionnement réseau.
-
----
-
-# Synthèse
-
-| Besoin               | Bibliothèque choisie | Raisons principales                               |
-| -------------------- | -------------------- | ------------------------------------------------- |
-| Affichage graphique  | **Raylib**           | Simple, légère, portable et adaptée à nos besoins |
-| Communication réseau | **ASIO**             | Asynchrone, portable, flexible et adaptée au C++  |
-
-## Décision finale
-
-**Raylib** a été choisie pour la partie graphique afin de disposer d'une solution simple et légère permettant de gérer efficacement l'affichage et les interactions avec l'utilisateur.
-
-**ASIO** a été choisie pour la partie réseau afin de disposer d'une solution portable et asynchrone permettant de gérer les communications sans bloquer le fonctionnement général de l'application.
-
-Ces deux choix permettent de conserver une architecture **simple, portable et facilement maintenable**, tout en disposant des fonctionnalités nécessaires au projet.
+| Need | Choice | Main reason |
+|------|--------|-------------|
+| Graphics | Raylib | Simple, light, portable |
+| Network library | Asio | Asynchronous, portable, our own protocol |
+| Transport | UDP | Fresh state matters more than reliability |
+| Game authority | Server | One truth, no cheating on positions |
+| Game structure | Own ECS | Reusable for other games |
+| Build | CMake + vcpkg | Same commands on both systems |

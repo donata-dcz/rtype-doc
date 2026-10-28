@@ -38,7 +38,6 @@ nav:
       - Introduction: Developer/Introduction.md
       - Build and run: Developer/Build.md
       - Architecture: Developer/Architecture.md
-      - Code map: Developer/CodeMap.md
       - Protocol: Developer/Protocol.md
       - Guides:
           - How-to guides: Developer/Guides.md
@@ -47,7 +46,6 @@ nav:
           - Server: Developer/Guides/Server.md
           - Add a new game: Developer/Guides/AddAGame.md
       - Accessibility: Developer/Accessibility.md
-      - Known limits: Developer/KnownLimits.md
 
 markdown_extensions:
   - admonition

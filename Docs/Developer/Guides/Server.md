@@ -39,6 +39,21 @@ A **session** is a player who completed the connection (`Connect`, then `Accept`
 
 The server does not act on `Disconnect`: a player who leaves is removed after 3 seconds without packets.
 
+## How the server uses a game
+
+The server does not know the rules of R-Type. It only calls six functions on a game object :
+
+| Call | When the server makes it |
+|------|--------------------------|
+| `Game(seed)` | Once, at start (the seed comes from `std::random_device`) |
+| `AddPlayer(id)` | A player's `Connect` is accepted. Returns `false` if there is no place |
+| `RemovePlayer(id)` | A session times out |
+| `SetInput(id, InputState)` | An `Input` packet arrives from a session |
+| `Tick(dt)` | Every tick, 1/60 s |
+| `BuildSnapshot() const` | Every second tick, to send to all sessions |
+
+Anything that provides these six calls can be run by the server. See [Add a new game](AddAGame.md).
+
 ## Status updates
 
 Once per second the server prints one line:

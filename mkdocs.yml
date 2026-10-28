@@ -1,12 +1,13 @@
 site_name: R-Type Documentation
 site_description: Documentation of the R-Type project
-site_url: https://donata-dcz.github.io/rtype-doc/Introduction
+site_url: https://donata-dcz.github.io/rtype-doc/
 docs_dir: Docs
 exclude_docs: |
   requirements.txt
 
 theme:
   name: material
+  custom_dir: overrides
   language: en
   palette:
     - media: "(prefers-color-scheme: light)"
@@ -27,7 +28,7 @@ theme:
     - content.code.copy
 
 nav:
-  - Introduction: Introduction.md
+  - Introduction: index.md
   - Project:
       - Introduction: Project/Introduction.md
       - Download:

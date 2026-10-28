@@ -1,0 +1,12 @@
+{% extends "main.html" %}
+
+{% block extrahead %}
+  {{ super() }}
+  <meta http-equiv="refresh" content="0; url={{ config.site_url }}">
+  <script>window.location.replace("{{ config.site_url }}");</script>
+{% endblock %}
+
+{% block content %}
+  <h1>Page not found</h1>
+  <p>Redirecting to the <a href="{{ config.site_url }}">introduction</a>…</p>
+{% endblock %}

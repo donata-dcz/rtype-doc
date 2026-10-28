@@ -4,7 +4,15 @@ One computer runs the server, and every player connects to it with the client.
 
 ## Download
 
-Pre-built versions for **Linux** and **Windows** are on the [releases page](https://github.com/alexis801/RType/releases). Download the archive for your system from the latest release and unzip it.
+Choose the archive for your system, then unzip it.
+
+=== "Windows"
+
+    [Download for Windows (x64)](../../downloads/rtype-server-windows.zip){ .md-button .md-button--primary }
+
+=== "Linux"
+
+    [Download for Linux (x64)](../../downloads/rtype-server-linux.zip){ .md-button .md-button--primary }
 
 ## Network
 

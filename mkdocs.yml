@@ -40,7 +40,6 @@ nav:
       - Architecture: Developer/Architecture.md
       - Protocol: Developer/Protocol.md
       - Guides:
-          - How-to guides: Developer/Guides.md
           - Client: Developer/Guides/Client.md
           - Engine: Developer/Guides/Engine.md
           - Server: Developer/Guides/Server.md
@@ -49,6 +48,7 @@ nav:
 
 markdown_extensions:
   - admonition
+  - attr_list
   - tables
   - toc:
       permalink: true
@@ -58,3 +58,5 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true

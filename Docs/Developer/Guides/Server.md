@@ -25,13 +25,13 @@ The game loop runs at 60 ticks per second (`TickRate` in `Ticks.hpp`). At each t
 2. Handle each packet (see the table below).
 3. Remove the players who have been silent for 3 seconds (`SessionTimeout`). Their ship disappears from the next snapshots.
 4. Advance the game by one step: `game.Tick(step)`.
-5. Every second tick (`TicksPerSnapshot` = 2, so 30 times per second), build one snapshot with `game.BuildSnapshot()` and send it to every connected player.
+5. Every second tick (`TicksPerSnapshot` = 2, so 30 times per second), build one snapshot with `game.BuildSnapshot()`, quantize it (`QuantizeSnapshot`) and send it to every connected player: a full `Snapshot` to a player who has not confirmed one yet, otherwise a `DeltaSnapshot` built on the last snapshot he confirmed. The quantized snapshots are kept in `TickState::history` (the last 32).
 
 At the end of each turn of the loop, the frame callback stops the loop on Ctrl+C, prints the status line once per second, and sleeps 1 ms to leave the processor alone (`GameLoop::Run` never sleeps).
 
 ## Sessions
 
-A **session** is a player who completed the connection (`Connect`, then `Accept`). It is made of the sender's address, a player id, and the time of the last packet received. Only sessions receive snapshots, and only sessions are listened to.
+A **session** is a player who completed the connection (`Connect`, then `Accept`). It is made of the sender's address, a player id, the time of the last packet received, and the last snapshot the player confirmed with `SnapshotAck` (`ackedTick`). Only sessions receive snapshots, and only sessions are listened to.
 
 - The player id is the lowest free number below `MaxPlayers`. It is free again when a player times out.
 - The player id used by the game **comes from the session**, found with the sender's address, never from the content of a packet. A client cannot play for another one.
@@ -59,7 +59,7 @@ Anything that provides these six calls can be run by the server. See [Add a new 
 Once per second the server prints one line:
 
 ```text
-server : 60 ticks/s, 3 entities, 1 players
+server : 60 ticks/s, 12 entities, 2 players, out 3.52 KB/s (0 full + 60 delta snapshots), in 0.82 KB/s
 ```
 
-`ticks/s` should be 60. A lower number means the game takes too long to compute a tick. `entities` is the number of entities in the last snapshot.
+`ticks/s` should be 60. A lower number means the game takes too long to compute a tick. `entities` is the number of entities in the last snapshot. `out` and `in` are the bytes sent to and received from **all** the players during the last second, and the numbers of full and delta snapshots sent. When the server stops (Ctrl+C) it prints the average of the whole run: it is the figure to use to compare two versions of the protocol.

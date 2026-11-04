@@ -39,7 +39,9 @@ The menu has two screens: the main one (Play, Options, Quit) and the options (Vo
 ## Audio
 
 All the sound is in one class, `Audio::AudioSystem` (`Client/Include/Client/Audio.hpp` and `Client/Src/Audio.cpp`). 
-The sounds are in `Assets/Sounds`, next to the client. Their names are written in `Audio.hpp`:
+The sounds are in `Assets/Sounds`, next to the client. Their names are written in `Audio.hpp`. Without any audio device, every call does nothing and the game runs silently.
+
+**Options > Volume** sets the master volume. Asking for the music that is already playing does nothing, so the main loop can ask every frame; `AudioSystem::Update` is called once per frame to keep the music going.
 
 ## At each frame
 

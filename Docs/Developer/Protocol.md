@@ -297,7 +297,7 @@ A receiver **MUST SILENTLY DROP** any datagram if:
 
 ---
 
-## Appendix A - Packet Binary Examples
+## 11. Appendix A - Packet Binary Examples
 
 ### A.1 `CONNECT` Packet Example
 Client sends player name "Player":
@@ -317,7 +317,7 @@ Server broadcasts 1 player (id 0, alive, 3 lives, score 200) and 1 entity (ship 
 Magic V  Type Sequence    Size  Tick (120)    Bit part: 88 bits = 11 bytes
 ```
 
-Bit part, least significant bit first (23 bytes in protocol 1, 15 in protocol 2):
+Bit part, least significant bit first (the payload is 23 bytes in protocol 1 and 15 bytes in protocol 2):
 
 ```text
 playerCount=1 (3) | entityCount=1 (8) | player: id=0 (2) flags=01 (2) lives=3 (3) score=200 (32)
@@ -355,9 +355,4 @@ The acks add `0.37` KB/s upstream (14 bytes per snapshot). The scene is calm (12
 
 In an R-Type almost every entity moves between two snapshots, which is why the delta saves less than in a static world: it mainly avoids resending the type, the entities that did not move, and the players that did not change.
 
-Live measurement: the server prints `out ... KB/s (N full + M delta snapshots), in ... KB/s` every second and an average when it stops (Ctrl+C). To compare, run the same scenario with the same number of players on a build of protocol 1 and on protocol 2 and fill:
-
-| Scenario | Protocol 1 | Protocol 2 |
-|---|---|---|
-| 2 players, 60 s, out (KB/s) | | |
-| 4 players, 60 s, out (KB/s) | | |
+Live measurement: the server prints `out ... KB/s (N full + M delta snapshots), in ... KB/s` every second and an average when it stops (Ctrl+C).

@@ -14,7 +14,7 @@ On Windows:
 
 Launch the file `r-type_server.exe`.
 
-The server listens on UDP port `4242`. Use `-p <port>` to choose another one. It prints one line every second, for example `server : 60 ticks/s, 3 entities, 1 players`.
+The server listens on UDP port `4242`. Use `-p <port>` to choose another one. It prints one line every second, for example `server : 60 ticks/s, 12 entities, 2 players, out 3.52 KB/s (0 full + 60 delta snapshots), in 0.82 KB/s`. `ticks/s` should be 60.
 
 ## 2. Start a client
 

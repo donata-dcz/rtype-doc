@@ -27,4 +27,4 @@ Supported platforms: **Linux** and **Windows** (both built and tested by the CI)
 | See how the server is managed | [Server](Guides/Server.md) |
 | Know what is accessible in the game | [Accessibility](Accessibility.md) |
 | Build another game on the engine | [Add a new game](Guides/AddAGame.md) |
-| Add a sound, an image, a message or a menu option | [Guides](Guides.md) |
+| See what is done for each requirement of the subject | [Features](Features.md) and the three tracks ([Architecture](Tracks/Architecture.md), [Gameplay](Tracks/Gameplay.md), [Networking](Tracks/Networking.md)) |

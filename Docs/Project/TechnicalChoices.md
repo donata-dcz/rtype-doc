@@ -18,7 +18,7 @@ Standalone Asio is a C++ library that hides the differences between Linux and Wi
 
 **Alternative:** TCP.
 
-A shoot'em up sends the full state many times per second, so an old packet is useless once a newer one exists. UDP has no retransmission and no head-of-line blocking, which fits. The price is paid in the protocol: sequence numbers, the client ignoring an older snapshot than the last one, the periodic `Input` as a "still alive" signal, and a 3 s session timeout. See [Protocol](../Developer/Protocol.md) and [Known limits](../Developer/KnownLimits.md).
+A shoot'em up sends the full state many times per second, so an old packet is useless once a newer one exists. UDP has no retransmission and no head-of-line blocking, which fits. The price is paid in the protocol: sequence numbers, the client ignoring an older snapshot than the last one, the periodic `Input` as a "still alive" signal, and a 3 s session timeout. To send less, the server sends only what changed since the last snapshot the client confirmed (delta snapshots).
 
 ## Authoritative server *(to confirm)*
 
@@ -42,7 +42,7 @@ One thread for the network (Asio), one for the game. They share only a mutex-pro
 
 ## Build: C++20, CMake presets, vcpkg *(to confirm)*
 
-C++20 for `std::span`, concepts and similar tools. CMake presets give the same two commands on Linux and Windows. vcpkg in manifest mode downloads Raylib and Asio, so nothing is installed by hand.
+C++20 for `std::span`, concepts and similar tools. CMake presets give the same two commands on Linux and Windows. vcpkg in manifest mode downloads Raylib, Asio and GoogleTest, so nothing is installed by hand.
 
 ## Summary
 

@@ -5,8 +5,8 @@
 | Folder | What is inside |
 |--------|----------------|
 | `Engine` | The game engine: ECS, systems, game loop, event bus. It knows nothing about R-Type |
-| `Common` | Code shared by the client and the server (protocol, snapshot, inputs) |
-| `Game` | The games built on the engine: `Game/RType` (to add a new game, see [Add a new game](Guides/AddAGame.md)) |
+| `Common` | Code shared by the client and the server: the packet header, the binary reader and writer, and the reliable-message classes (not used yet) |
+| `Game` | The games built on the engine: `Game/RType`. It also holds what the client and the server share about R-Type: the snapshot, the inputs and the messages |
 | `Server` | The `r-type_server` executable |
 | `Client` | The `r-type_client` executable (Raylib) |
 | `Tests` | Unit tests |

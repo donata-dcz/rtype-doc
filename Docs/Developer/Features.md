@@ -15,7 +15,7 @@ Features that go beyond the original subject are explicitly marked as **(bonus)*
 | Run on Linux, for both the client and the server | Done | |
 | Cross-Platform | Done | Linux and Windows are built by the CI |
 | Well-defined software development workflow | Done | Feature branches, pull requests and issues |
-| CI/CD workflow | Partial | The CI builds and releases the project. Tests are currently run locally but are not yet integrated into the CI |
+| CI/CD workflow | Done | The CI builds and tests (`ctest`) the project on Linux and Windows, and releases it |
 | C++ linters and formatters | Partial | `clang-format` is configured. `clang-tidy` is not yet integrated |
 
 ## Software Architecture & First Game Prototype
@@ -81,6 +81,6 @@ Three technical tracks were studied, each with its own page. The tracks are:
 
 | Track | Page |
 |---|---|
-| Track #1: Advanced Architecture - Building a Real Game Engine | [Advanced Architecture](Tracks/AdvancedArchitecture.md) |
-| Track #2: Advanced Networking - Building a Reliable Network Game | [Advanced Networking](Tracks/AdvancedNetworking.md) |
-| Track #3: Advanced Gameplay - Building a Fun and Complete Video Game | [Advanced Gameplay](Tracks/AdvancedGameplay.md) |
+| Track Advanced Architecture - Building a Real Game Engine | [Advanced Architecture](Tracks/Architecture.md) |
+| Track Advanced Networking - Building a Reliable Network Game | [Advanced Networking](Tracks/Networking.md) |
+| Track Advanced Gameplay - Building a Fun and Complete Video Game | [Advanced Gameplay](Tracks/Gameplay.md) |

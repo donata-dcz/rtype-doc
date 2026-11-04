@@ -6,7 +6,7 @@
 - CMake 3.28+
 - A C++20 compiler
 
-Third-party libraries (Raylib, Asio) are handled by [vcpkg](https://vcpkg.io/).
+Third-party libraries (Raylib, Asio, GoogleTest) are handled by [vcpkg](https://vcpkg.io/).
 It is cloned automatically by CMake on the first configuration.
 
 ### Pre-built binaries
@@ -58,11 +58,17 @@ If the server does not use the default port, give the same port to both programs
 ./build/default/Client/r-type_client -p 2525
 ```
 
+### Tests
+
+```bash
+ctest --test-dir build/default
+```
+
 ## Controls
 
 | Action | Effect |
 |--------|--------|
 | Up, down, left, right | Move the ship |
-| Shoot | Fire a missile |
+| Shoot (Space) | Fire a missile |
 
 In the menu, use the arrow keys, Enter and Esc. Esc goes back to the menu, also during a game. It never closes the window: use **Quit** or the close button.

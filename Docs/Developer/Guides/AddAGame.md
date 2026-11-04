@@ -9,7 +9,6 @@ R-Type is two things: a **game engine** (`Engine`, generic) and a **game** (`Gam
 3. Write one **game class** that owns an `ecs::Registry`, a list of systems and, if useful, an `Engine::EventBus`. Its `Update`/`Tick` runs the systems in a fixed order.
 4. Build the rules as a **static library**, without any window code, so they can be tested. Put the executable in a separate file.
 5. Add the folder with `add_subdirectory(Game/<Name>)` in the root `CMakeLists.txt`.
-6. Include the new game in the main `CMakeLists.txt` file.
 
 ## If you want to make a local game (like Pacman)
 
@@ -65,6 +64,6 @@ target_link_libraries(MyGame PUBLIC Common Engine)
 
 Then:
 
-1. Make the server run your class. Today `Server/Src/Ticks.*` and `Server/Src/Main.cpp` include `Game.hpp` and use `rtype::Game` directly, so **switching games means changing those includes and the type name**. There is no runtime choice of game yet (see [Known limits](../KnownLimits.md)).
+1. Make the server run your class. Today `Server/Src/Ticks.*` and `Server/Src/Main.cpp` include `Game.hpp` and use `rtype::Game` directly, so **switching games means changing those includes and the type name**. There is no runtime choice of game yet.
 2. Make the client draw your snapshot: replace `SnapshotRenderer` (a `switch` on `EntityType`) and the keys in `Keyboard.cpp`.
 3. Keep the rule of the project: the server decides, the client sends keys and draws.

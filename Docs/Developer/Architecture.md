@@ -44,5 +44,5 @@ The server advances the game with a **fixed step**: each tick moves the game for
 ## The game world
 
 - The world is `800 x 600` units. `(0, 0)` is the **top-left corner**.
-- Sizes: ship `99 x 51`, player missile `16 x 4`, Bydos `48 x 36`, enemy missile `16 x 4`.
+- Sizes: ship `99 x 51`, player missile `32 x 16`, Bydos `42 x 48`, enemy missile `32 x 16`.
 - Up to 4 players (ids 0 to 3) and 128 entities per snapshot.

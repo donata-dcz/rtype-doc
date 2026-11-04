@@ -266,9 +266,9 @@ A lost snapshot is never repaired: the next one is built on a baseline the clien
 - **Origin**: `(0, 0)` is the **top-left corner**.
 - **Entity Dimensions**:
   - `Ship`: 99 × 51 units (IDs `0` to `3`).
-  - `PlayerMissile`: 16 × 4 units.
-  - `Bydos`: 48 × 36 units.
-  - `EnemyMissile`: 16 × 4 units.
+  - `PlayerMissile`: 32 × 16 units.
+  - `Bydos`: 42 × 48 units.
+  - `EnemyMissile`: 32 × 16 units.
 
 ---
 

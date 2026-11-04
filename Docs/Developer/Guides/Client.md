@@ -47,4 +47,4 @@ The sounds are in `Assets/Sounds`, next to the client. Their names are written i
 
 1. `ServerConnection::Update` reads the packets received (network thread, Asio) and updates the status.
 2. In the menu: `Menu::Update` returns an action (`Connect` or `Quit`).
-3. In a game: `ReadKeyboard` builds an `InputState`, `SendInput` sends it, `SnapshotRenderer::Draw` draws the last snapshot.
+3. In a game: `ReadControls` (keyboard and gamepad) builds an `InputState`, `SendInput` sends it, `SnapshotInterpolator` keeps the last snapshots and gives the picture to draw, and `SnapshotRenderer::Draw` draws it.

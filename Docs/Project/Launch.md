@@ -47,4 +47,10 @@ Choose **Play** in the menu: the client connects to the server. The menu does no
 | Space | Shoot |
 | Esc | Back to the menu (also during a game) |
 
-In the menu, use the arrow keys, Enter and Esc. **Options** changes the volume and the text size. To close the game, use **Quit** or the window close button.
+With a gamepad:
+
+| Button | Action |
+|--------|--------|
+| D-pad or either stick | Move the ship |
+| Face buttons or triggers | Shoot |
+| Start or Select | Back to the menu (also during a game) |

@@ -71,4 +71,6 @@ ctest --test-dir build/default
 | Up, down, left, right | Move the ship |
 | Shoot (Space) | Fire a missile |
 
+A gamepad works too: the D-pad and the sticks move, the face buttons and the triggers shoot, Start or Select goes back to the menu.
+
 In the menu, use the arrow keys, Enter and Esc. Esc goes back to the menu, also during a game. It never closes the window: use **Quit** or the close button.

@@ -10,6 +10,7 @@ We want R-Type to be playable by as many people as possible. This page says what
 | Motor | Mouse menu | Hovering a row selects it, a click validates it. Keyboard and mouse can be mixed. |
 | Motor | Held keys repeat | Nobody has to tap a key many times in the menu. |
 | Motor | Nothing to type | **Play** connects directly. The server address and port come from the command line (`-h`, `-p`). |
+| Motor | Gamepad | The D-pad and both sticks move, the face buttons and the triggers shoot, Start or Select goes back to the menu. In the menu, the D-pad or a stick moves, a face button validates. A gamepad that Raylib does not know is read directly. |
 | Motor | Safe Esc | Esc only goes back. The window is closed with **Quit** or its close button. |
 | Visual | Resizable window | The menu adapts to the new size. |
 | Visual | Text size | **Options > Text size**: 125 % or 150 %. |
@@ -31,7 +32,6 @@ We want R-Type to be playable by as many people as possible. This page says what
 | Category | Feature | Details |
 |----------|---------|---------|
 | Motor | Remappable keys | Also WASD and ZQSD layouts. This is the main gap today. |
-| Motor | Gamepad | Raylib can already handle it. |
 | Motor | Auto-fire or toggle shooting | So nobody has to hold or hammer a key. |
 | Motor | Assist options | Slower game, more lives. |
 | Visual | High-contrast mode | Pure white on black, thicker outlines. |

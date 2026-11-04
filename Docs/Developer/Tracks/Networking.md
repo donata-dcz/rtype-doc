@@ -31,7 +31,7 @@ This page lists the items of this track in the subject, in the same order, with 
 | Feature | Status | Notes |
 |---|---|---|
 | Client-side prediction with server reconciliation | Not done | |
-| Low-frequency server updates with entity state interpolation | Not done | The client currently draws snapshots as received |
+| Low-frequency server updates with entity state interpolation | Done | The server sends 30 snapshots per second. The client draws the game two snapshots in the past and interpolates the positions between them (`SnapshotInterpolator`) |
 | Server-side lag compensation | Not done | |
 | Input delaying | Not done | |
 | Rollback netcode | Not done | |

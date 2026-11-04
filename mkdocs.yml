@@ -41,6 +41,11 @@ nav:
       - Build and run: Developer/Build.md
       - Architecture: Developer/Architecture.md
       - Protocol: Developer/Protocol.md
+      - Features: Developer/Features.md
+      - Tracks:
+        - Advanced Architecture: Developer/Tracks/Architecture.md
+        - Advanced Gameplay: Developer/Tracks/Gameplay.md
+        - Advanced Networking: Developer/Tracks/Networking.md
       - Guides:
           - Client: Developer/Guides/Client.md
           - Engine: Developer/Guides/Engine.md

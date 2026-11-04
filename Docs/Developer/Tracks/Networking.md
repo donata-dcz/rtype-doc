@@ -25,7 +25,6 @@ This page lists the items of this track in the subject, in the same order, with 
 | Network errors mitigation: packet reordering | Partial | The client discards snapshots whose tick is not newer than the last received snapshot. Other messages are not covered |
 | Network errors mitigation: packet duplication | Partial | Duplicated snapshots are discarded the same way. No general duplicate handling for all messages |
 | Message reliability | Partial | `ReliableSender`, `ReliableReceiver` and `ReliableConnection` implement ACK, retransmission and a duplicate window. They are tested but not yet used by the server or the client. The `CONNECT` handshake uses a simple retry |
-| **(bonus)** Packet validation | Done | See [Protocol](../Protocol.md), section 9 |
 
 ## High-level Networking Engine Architecture
 

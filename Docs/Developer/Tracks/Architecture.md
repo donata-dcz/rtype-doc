@@ -1,6 +1,6 @@
 # Advanced Architecture Features
 
-This page lists the items of this track in the subject, in the same order, with what we implemented.
+This page lists the items of the advanced architecture track and what we implemented.
 
 ## Track Goals
 
@@ -9,7 +9,7 @@ This page lists the items of this track in the subject, in the same order, with 
 | Deliver a well-defined engine with proper abstractions, decoupling, features and tools | Partial | Core architecture, ECS and reusable systems are implemented. Some engine subsystems and tooling are still missing |
 | The engine knows nothing about R-Type | Done | `Engine/` contains no R-Type-specific game logic or assets |
 | The engine is delivered as a separate and standalone project | Partial | The engine is a separate library used by the games, but it lives in the same repository as R-Type |
-| Create a second sample game using the engine | Done | Pacman, including tests and the [Add a new game](../Guides/AddAGame.md) tutorial |
+| Create a second sample game using the engine | Done | Pacman, including tests |
 
 ## Modularity
 

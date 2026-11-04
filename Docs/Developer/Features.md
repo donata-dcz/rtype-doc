@@ -1,8 +1,6 @@
 # Features
 
-This page provides an overview of the project's implementation against the requirements and topics described in the official R-Type subject.
-
-The requirements are listed in the same order and structure as the original subject. Each item indicates its current implementation status, with additional notes when clarification is useful.
+This page provides an overview of the features implemented in this project, with their current implementation status, with additional notes when clarification is useful.
 
 Features that go beyond the original subject are explicitly marked as **(bonus)**.
 
@@ -12,44 +10,13 @@ Features that go beyond the original subject are explicitly marked as **(bonus)*
 
 | Requirement | Status | Notes |
 |---|---|---|
-| Build System Generator | Done | CMake with presets. See [Build](Build.md) |
+| Build System Generator | Done | CMake with presets |
 | Package Manager | Done | vcpkg |
 | Run on Linux, for both the client and the server | Done | |
 | Cross-Platform | Done | Linux and Windows are built by the CI |
 | Well-defined software development workflow | Done | Feature branches, pull requests and issues |
 | CI/CD workflow | Partial | The CI builds and releases the project. Tests are currently run locally but are not yet integrated into the CI |
 | C++ linters and formatters | Partial | `clang-format` is configured. `clang-tidy` is not yet integrated |
-| **(bonus)** File naming convention checked by the CI | Done | PascalCase naming convention checked on every pull request |
-| **(bonus)** Branch rule checked by the CI | Done | Only `dev` can be merged into `main` |
-
-### Documentation Requirements
-
-| Requirement | Status | Notes |
-|---|---|---|
-| Documentation written in English | Done | |
-| README | Done | |
-| Developer Documentation: architectural diagrams | Done | See [Architecture](Architecture.md) |
-| Developer Documentation: main systems overviews and descriptions | Done | [Client](Guides/Client.md), [Engine](Guides/Engine.md), [Server](Guides/Server.md) |
-| Developer Documentation: tutorials and How-To's | Done | [Add a new game](Guides/AddAGame.md) |
-| Contribution guidelines and coding conventions | Not done | No dedicated page yet. The formatting rules are enforced by `clang-format` and the file naming rule by the CI |
-| Technical and Comparative Study | Partial | See [Technical choices](../Project/TechnicalChoices.md). Some sections still need confirmation or completion |
-| Algorithms and Data Structures | Partial | ECS, fixed time step and delta snapshots are justified. Custom algorithms still need their own section |
-| Storage | Not done | No comparative study yet |
-| Security | Partial | Packet validation is documented in [Protocol](Protocol.md), section 9. No comparative study yet |
-| Documentation available and accessible in a modern way | Done | Static documentation website generated with MkDocs Material |
-| Protocol documentation | Done | Written as an RFC, including binary packet examples. See [Protocol](Protocol.md) |
-
-### Accessibility Requirements
-
-The project, including its documentation, must be accessible to people with disabilities.
-
-| Requirement | Status | Notes |
-|---|---|---|
-| Physical and Motor Disabilities | Done | Keyboard-only menus and safe Esc key handling |
-| Audio and Visual Disabilities | Done | Contrast measured against WCAG AA. Selection is not indicated by color alone. The game runs without an audio device |
-| Mental and Cognitive Disabilities | Done | Easy way back to the menu and clearly explained connection errors |
-
-See [Accessibility](Accessibility.md) for details and planned improvements.
 
 ## Software Architecture & First Game Prototype
 
@@ -59,7 +26,7 @@ See [Accessibility](Accessibility.md) for details and planned improvements.
 |---|---|---|
 | The game MUST be playable at the end of this part | Done | Star-field background, Bydos enemies, player spaceships and missiles |
 | The game MUST be a networked game | Done | Each player uses a distinct client connected to a central authoritative server |
-| The game MUST demonstrate the foundations of a game engine | Done | Decoupled Rendering, Networking and Game Logic subsystems. See [Architecture](Architecture.md) |
+| The game MUST demonstrate the foundations of a game engine | Done | Decoupled Rendering, Networking and Game Logic subsystems |
 
 ### Server
 
@@ -86,7 +53,7 @@ See [Accessibility](Accessibility.md) for details and planned improvements.
 | Design a binary protocol for client/server communications | Done | Custom binary protocol |
 | Use UDP for communications between the server and the clients | Done | All in-game communications use UDP |
 | Malformed packets MUST NOT crash the client or the server | Done | Magic, version, packet size and bounded reads are validated |
-| Document the protocol | Done | RFC-style documentation with binary packet examples. See [Protocol](Protocol.md) |
+| Document the protocol | Done | RFC-style documentation with binary packet examples |
 
 ### Game Engine
 
@@ -110,7 +77,7 @@ See [Accessibility](Accessibility.md) for details and planned improvements.
 
 ## Advanced Topics
 
-The subject presents three technical tracks. Not every feature is mandatory to validate the project. Each track has its own page, with the items of the subject in the same order:
+Three technical tracks were studied, each with its own page. The tracks are:
 
 | Track | Page |
 |---|---|

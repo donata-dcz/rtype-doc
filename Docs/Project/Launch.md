@@ -39,7 +39,8 @@ If the server uses another port, give the same one to the client.
 
 ## 3. Play
 
-Choose **Play** in the menu: the client connects to the server. The menu does not ask for an address, a port or a name.
+Choose **Play** in the menu: the client connects using the command-line
+host and port. The menu also contains **Options** for volume and text size.
 
 | Key | Action |
 |-----|--------|
@@ -54,3 +55,20 @@ With a gamepad:
 | D-pad or either stick | Move the ship |
 | Face buttons or triggers | Shoot |
 | Start or Select | Back to the menu (also during a game) |
+
+The client predicts the local ship movement immediately, then reconciles it
+with the authoritative server state. Other players and entities continue to
+use interpolated snapshots.
+
+The HUD shows crew score/lives and a boss health bar. On game over, a
+translucent black overlay is drawn over the game. The server loads the four
+JSON levels in `Assets/Levels` and advances automatically after each boss.
+The client plays dedicated boss music while a boss is present and plays a
+non-looping boss-defeat track when the boss disappears from the client
+snapshot, then resumes the stage music when that track ends.
+
+The server supports multiple independent rooms through its lobby. A player
+joining through `CONNECT` is assigned to the first room with an available
+slot; if all rooms are full, the server creates another room. The client can
+request the room list with `ListRoomsRequest`, although room creation and
+selection are not currently exposed in the graphical menu.

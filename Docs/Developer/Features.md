@@ -32,10 +32,10 @@ Features that go beyond the original subject are explicitly marked as **(bonus)*
 
 | Requirement | Status | Notes |
 |---|---|---|
-| The server MUST notify each client of the game events (monsters, missiles, players) and of the other clients' actions | Done | Entities and their states are sent to every client in snapshots |
+| The server MUST notify each client of the game events (monsters, missiles, players) and of the other clients' actions | Done | Entities are sent in snapshots; reliable events notify player deaths, players leaving and game over |
 | The server MUST be multithreaded | Done | One network thread using Asio and one game thread |
 | If a client crashes, the server MUST continue to work | Done | The disconnected session is removed after a 3-second timeout |
-| If a client crashes, the server MUST notify the other clients in the same game | Partial | The `EVENT` message is defined but not emitted yet |
+| If a client crashes, the server MUST notify the other clients in the same game | Partial | The session is removed after a timeout; a dedicated notification is still not emitted for disconnects |
 | Asio library for networking (MAY) | Done | Asio is used inside the network classes |
 
 ### Client
@@ -44,7 +44,7 @@ Features that go beyond the original subject are explicitly marked as **(bonus)*
 |---|---|---|
 | The client MUST contain everything necessary to display the game and handle player input | Done | Graphical client with keyboard input handling |
 | Everything related to gameplay logic shall occur on the server | Done | The server remains authoritative over gameplay |
-| The client MAY run parts of the game logic | Not done | Not used: the client only sends inputs and draws the world |
+| The client MAY run parts of the game logic | Done | Local movement prediction runs on the client; the server remains authoritative |
 
 ### Protocol
 
@@ -73,7 +73,12 @@ Features that go beyond the original subject are explicitly marked as **(bonus)*
 | There MUST be Bydos slaves in the game, as well as missiles | Done | |
 | Monsters MUST be able to spawn randomly on the right of the screen | Done | |
 | The four players MUST be distinctly identifiable | Done | One ship color per player |
-| Basic sound design | Done | Title, stage and game over music, and a shot sound |
+| Basic sound design | Done | Title, stage, boss, boss-defeat and game over music, plus the shooting sound |
+| Multi-room server support (bonus) | Done | The server owns a thread-safe lobby and runs independent game rooms; new players use the first available room |
+| Room list discovery (bonus) | Partial | `ListRoomsRequest`/`ListRoomsResponse` are implemented; room selection is not exposed in the graphical menu |
+| Game-over presentation (bonus) | Done | The HUD draws a translucent black overlay over the game and displays `GAME OVER` |
+| Local movement prediction and reconciliation | Done | Input frames are acknowledged by the server and unacknowledged inputs are replayed |
+| RTT debug information | Done | Toggle with `F3` during a game |
 
 ## Advanced Topics
 

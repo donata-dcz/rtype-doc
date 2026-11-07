@@ -6,7 +6,8 @@ The client is the `r-type_client` program. It opens a window with Raylib, shows 
 ./build/default/Client/r-type_client [-h <host>] [-p <port>]
 ```
 
-It connects to `127.0.0.1:4242` unless `-h` and `-p` say otherwise. **Play** uses these values: the menu does not ask for an address.
+It connects to `127.0.0.1:4242` unless `-h` and `-p` say otherwise. **Play**
+uses these values: the menu does not ask for an address.
 
 ## Connection status
 
@@ -25,7 +26,7 @@ When the connection is lost, the player goes back to the menu and the message st
 
 ## The menu
 
-The menu has two screens: the main one (Play, Options, Quit) and the options (Volume, Text size, Back).
+The menu has two screens: the main one (Play, Options, Quit) and the options screen (volume, text size and Back).
 
 - The keys are the same on every screen: up and down to move, Enter to select, left and right to change a value, Esc to go back. A help line at the bottom reminds them.
 - The mouse works too: hovering a row selects it and a click validates it.
@@ -47,4 +48,13 @@ The sounds are in `Assets/Sounds`, next to the client. Their names are written i
 
 1. `ServerConnection::Update` reads the packets received (network thread, Asio) and updates the status.
 2. In the menu: `Menu::Update` returns an action (`Connect` or `Quit`).
-3. In a game: `ReadControls` (keyboard and gamepad) builds an `InputState`, `SendInput` sends it, `SnapshotInterpolator` keeps the last snapshots and gives the picture to draw, and `SnapshotRenderer::Draw` draws it.
+3. In a game, `ClientPredictionSystem` applies the local input immediately and stores it in a prediction buffer.
+4. `SendInput` includes the local frame number. The server replies with `InputAck`; the client reconciles the acknowledged server position and replays inputs that were not acknowledged yet.
+5. `SnapshotInterpolator` keeps the last snapshots and gives the picture to draw, while `SnapshotRenderer::Draw` renders the result.
+
+The in-game HUD displays each player's score and lives and a boss health bar.
+When the local player has no lives left, it displays `GAME OVER` over a
+translucent black overlay so the game remains visible behind the alert.
+
+The game loads every valid JSON file from `Assets/Levels` in sorted order.
+After a boss is defeated, the server advances to the next level.

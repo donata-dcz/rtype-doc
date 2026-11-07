@@ -22,7 +22,7 @@ They only meet in two places: the list of received packets, protected by a mutex
 The game loop runs at 60 ticks per second (`TickRate` in `Ticks.hpp`). At each tick, `SetTickCallback` does this, in order:
 
 1. Take all the packets received since the last tick (`PollReceived`).
-2. Handle each packet (see the table below).
+2. Handle each packet (see the table below), including ping replies and input frame tracking.
 3. Remove the players who have been silent for 3 seconds (`SessionTimeout`). Their ship disappears from the next snapshots.
 4. Advance the game by one step: `game.Tick(step)`.
 5. Every second tick (`TicksPerSnapshot` = 2, so 30 times per second), build one snapshot with `game.BuildSnapshot()`, quantize it (`QuantizeSnapshot`) and send it to every connected player: a full `Snapshot` to a player who has not confirmed one yet, otherwise a `DeltaSnapshot` built on the last snapshot he confirmed. The quantized snapshots are kept in `TickState::history` (the last 32).
@@ -36,6 +36,8 @@ A **session** is a player who completed the connection (`Connect`, then `Accept`
 - The player id is the lowest free number below `MaxPlayers`. It is free again when a player times out.
 - The player id used by the game **comes from the session**, found with the sender's address, never from the content of a packet. A client cannot play for another one.
 - When all the places are taken, the server answers `Reject` (server full).
+- `Ping` packets receive an immediate `Pong`.
+- Each accepted `Input` stores its frame number. The server sends an `InputAck` so the client can reconcile locally predicted movement.
 
 The server does not act on `Disconnect`: a player who leaves is removed after 3 seconds without packets.
 

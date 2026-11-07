@@ -18,7 +18,7 @@ We want R-Type to be playable by as many people as possible. This page says what
 | Visual | Selection not only by color | The selected row has a `>` marker and a filled background. |
 | Visual | Color-blind-safe accents | Sky blue and vermillion, from the Okabe-Ito palette. |
 | Audio | Volume | **Options > Volume**, from 0 % to 100 %, for all sounds. |
-| Audio | Sound design | Title music, stage music, game over music and shot sound. The game runs without sound if there is no audio device. |
+| Audio | Sound design | Title, stage, boss, boss-defeat and game over music, plus the shot sound. The game runs without sound if there is no audio device. |
 | Cognitive | Short menu | Three entries per screen, no deep navigation. |
 | Cognitive | Same keys everywhere | A help line at the bottom of each screen reminds the keys. |
 | Cognitive | Plain messages | "The server does not answer", "Rejected: server is full", "Connection Lost". |
@@ -34,11 +34,11 @@ We want R-Type to be playable by as many people as possible. This page says what
 | Motor | Remappable keys | Also WASD and ZQSD layouts. This is the main gap today. |
 | Motor | Auto-fire or toggle shooting | So nobody has to hold or hammer a key. |
 | Motor | Assist options | Slower game, more lives. |
-| Visual | High-contrast mode | Pure white on black, thicker outlines. |
-| Visual | Reduced motion | Freezes the scrolling star-field. |
+| Visual | High-contrast mode | Planned; no option is currently exposed. |
+| Visual | Reduced motion | Planned; no option is currently exposed. |
 | Visual | Players told apart without color | A number or a shape on each ship. |
-| Audio | Visual cue for every important sound | Hit, death, game over. We have not checked yet that a deaf player gets the same information from the screen. |
-| Audio | Separate music and effects volumes | To keep the effects and lower the music. |
+| Audio | Visual cue for every important sound | Planned; the current HUD keeps its original presentation. |
+| Audio | Separate music and effects volumes | Effects volume is configurable; a separate music slider remains to be added. |
 | Cognitive | Controls reminder | Shown before the first game. |
 | Cognitive | No flashing effects | No more than three flashes per second (WCAG 2.3.1). |
 | Cognitive | Easier difficulty | Fewer enemies and slower missiles. |

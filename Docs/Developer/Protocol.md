@@ -68,7 +68,7 @@ Every datagram MUST consist of a **10-byte fixed Header** immediately followed b
 | Offset (Bytes) | Field | Type | Size | Description / Value |
 |---|---|---|---|---|
 | 0 | `magic` | `u16` | 2 bytes | Protocol Magic Identifier: `0x5254` (`"RT"` ASCII) |
-| 2 | `version` | `u8` | 1 byte | Protocol Version: `2` |
+| 2 | `version` | `u8` | 1 byte | Protocol Version: `4` |
 | 3 | `type` | `u8` | 1 byte | Message Type Identifier (Section 6) |
 | 4 | `sequence` | `u32` | 4 bytes | Monotonic packet sequence counter |
 | 8 | `payloadSize` | `u16` | 2 bytes | Length of the payload in bytes |
@@ -108,15 +108,18 @@ Messages with OpCodes `>= 0x80` flow from **Server → Client**.
 |---|---|---|---|
 | `0x01` | `CONNECT` | Client → Server | Name length + Printable ASCII Name |
 | `0x02` | `INPUT` | Client → Server | Frame counter + Action bitmask |
-| `0x03` | `PING` | Client → Server | Reserved (Heartbeat) |
+| `0x03` | `PING` | Client → Server | Empty heartbeat used to measure round-trip time |
+| `0x07` | `LIST_ROOMS_REQUEST` | Client → Server | Empty request for the current room list |
 | `0x05` | `SNAPSHOT_ACK` | Client → Server | Tick of the last snapshot rebuilt |
 | `0x04` | `DISCONNECT` | Client → Server | Reserved (Explicit disconnect) |
 | `0x81` | `ACCEPT` | Server → Client | Assigned `playerId` |
 | `0x82` | `REJECT` | Server → Client | Rejection reason code |
 | `0x83` | `SNAPSHOT` | Server → Client | Full world state snapshot (bit-packed) |
-| `0x84` | `EVENT` | Server → Client | Reserved (One-off events) |
-| `0x85` | `PONG` | Server → Client | Reserved |
+| `0x84` | `EVENT` | Server → Client | Reliable one-off game event |
+| `0x85` | `PONG` | Server → Client | Empty response carrying the request sequence |
 | `0x86` | `DELTA_SNAPSHOT` | Server → Client | Changes since a snapshot the client confirmed |
+| `0x87` | `INPUT_ACK` | Server → Client | Highest input frame consumed by the server |
+| `0x08` | `LIST_ROOMS_RESPONSE` | Server → Client | Room count and room metadata |
 
 ### 6.1 `CONNECT` (`0x01`)
 - `nameLength` (`u8`): Length of name (0 to 16).
@@ -138,6 +141,45 @@ Messages with OpCodes `>= 0x80` flow from **Server → Client**.
   - Bit 4 (`0x10`): Primary Shoot
   - Bits 5–7: MUST be `0`.
 
+### 6.4.1 `PING` (`0x03`) and `PONG` (`0x85`)
+
+`PING` has an empty payload. The server answers with an empty `PONG` using
+the same sequence number. The client uses the elapsed time between the two
+packets as its round-trip-time measurement.
+
+### 6.4.2 `EVENT` (`0x84`)
+
+`EVENT` packets are sent reliably by the server for one-off game events. The
+payload starts with an event type (`u8`):
+
+| Type | Name | Additional payload |
+|---:|---|---|
+| `1` | `PLAYER_DIED` | Player ID (`u8`) |
+| `2` | `GAME_OVER` | None |
+| `3` | `PLAYER_LEFT` | Player ID (`u8`) |
+
+The client acknowledges reliable events with an `ACK` packet and ignores
+duplicates. Boss defeat is not a protocol event: the client detects the
+boss's disappearance between snapshots and controls the boss-defeat music
+locally.
+
+### 6.4.3 `LIST_ROOMS_REQUEST` (`0x07`) and `LIST_ROOMS_RESPONSE` (`0x08`)
+
+`LIST_ROOMS_REQUEST` has an empty payload and is accepted only for an already
+connected session. The response payload is:
+
+- `roomCount` (`u16`): number of entries, at most 100;
+- for each room:
+  - `id` (`u32`);
+  - `nameLength` (`u16`) and `name` (`u8[]`), at most 255 bytes;
+  - `playerCount` (`u32`);
+  - `maxPlayers` (`u32`);
+  - `isRunning` (`u8`): `0` or `1`.
+
+The current server uses the room list for discovery and automatically assigns
+a connecting player to the first room with an available slot. These messages
+do not create, join, or remove a specific room.
+
 ### 6.5 `SNAPSHOT` (`0x83`)
 
 Full world state. Sent to a player who has not confirmed any snapshot yet (`SNAPSHOT_ACK`), when the snapshot it confirmed is too old, or when it is smaller than the delta.
@@ -152,7 +194,7 @@ Bit part (Section 5.1), in this order:
 | `playerCount` | 3 | Active player entries (`0` to `4`) |
 | `entityCount` | 8 | Active game entities (`0` to `128`) |
 | `players` | `playerCount` × 39 | See below |
-| `entities` | `entityCount` × 38 | See below |
+| `entities` | `entityCount` × 40 (or 47 for a boss) | See below |
 
 Player (39 bits):
 
@@ -168,7 +210,7 @@ Entity (38 bits):
 | Field | Bits | Description |
 |---|---|---|
 | `id` | 16 | Unique entity ID. A ship uses its player ID (`0` to `3`); every other entity uses `4` to `65535`, wrapping around |
-| `type` | 2 | `type - 1`: `0` = Ship, `1` = PlayerMissile, `2` = Bydos, `3` = EnemyMissile |
+| `type` | 4 | `type - 1`: Ship, PlayerMissile, Bydos, EnemyMissile, Kamikaze, Turret, Boss, BossShot |
 | `x` | 10 | Horizontal position + `64` (so `-64` to `959`) |
 | `y` | 10 | Vertical position + `64` (so `-64` to `959`) |
 
@@ -197,13 +239,21 @@ Bit part (Section 5.1), in this order:
 | `removedCount` | 8 | Entities of the baseline that are gone |
 | `removed` | 16 each | Their ids |
 | `addedCount` | 8 | Entities that were not in the baseline |
-| `added` | 38 each | Full entities (same layout as in `SNAPSHOT`) |
+| `added` | 40 each (or 47 for a boss) | Full entities (same layout as in `SNAPSHOT`) |
 | `movedCount` | 8 | Entities of the baseline whose position changed |
-| `moved` | 36 each | `id` (16), `x` (10), `y` (10) |
+| `moved` | 36 each, or 43 for a boss | `id` (16), `x` (10), `y` (10), and boss health when applicable |
 
 Everything not named (a player not in `playersSent`, an entity neither removed nor moved) is copied from the baseline. Entities then go in the drawing order of Section 6.5. A receiver MUST drop a delta whose `age` does not match the baseline it has, that removes or moves an id absent from the baseline, or that adds an id already present.
 
 The server sends a `DELTA_SNAPSHOT` only if it is smaller than the `SNAPSHOT` it would send instead.
+
+### 6.8 `INPUT_ACK` (`0x87`)
+
+- `frame` (`u32`): highest input frame consumed by the server for this session.
+
+The client uses this acknowledgement to discard confirmed inputs from its
+prediction buffer and replay the remaining inputs after the authoritative
+server position.
 
 ---
 
@@ -321,7 +371,7 @@ Bit part, least significant bit first (the payload is 23 bytes in protocol 1 and
 
 ```text
 playerCount=1 (3) | entityCount=1 (8) | player: id=0 (2) flags=01 (2) lives=3 (3) score=200 (32)
-| entity: id=0 (16) type=0 (2) x=60+64=124 (10) y=90+64=154 (10)
+| entity: id=0 (16) type=0 (4) x=60+64=124 (10) y=90+64=154 (10)
 ```
 
 ### A.3 `SNAPSHOT_ACK` Packet Example

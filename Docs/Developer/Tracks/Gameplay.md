@@ -6,18 +6,18 @@ This page lists the items of this track in the subject, in the same order, with 
 
 | Feature | Status | Notes |
 |---|---|---|
-| Monsters with varying movement patterns and attacks | Partial | Basic Bydos enemies only. No snake-style monsters or ground turrets yet |
-| Levels with different themes and interesting gameplay twists | Not done | |
-| Bosses | Not done | No Dobkeratops or other boss |
-| Weapons | Partial | A `Gun` weapon is implemented. No Force yet |
+| Monsters with varying movement patterns and attacks | Partial | Bydos, Kamikaze and Turret enemies are implemented. No snake-style monsters yet |
+| Levels with different themes and interesting gameplay twists | Done | Four JSON levels are loaded from `Assets/Levels` and progress automatically after each boss |
+| Bosses | Done | A Dobkeratops boss spawns after 90 seconds or when the team reaches 5,000 points |
+| Weapons | Partial | A `Gun` weapon and enemy missiles are implemented. No Force yet |
 | Gameplay rules: friendly-fire | Not done | |
 | Gameplay rules: bonuses availability | Not done | |
 | Gameplay rules: difficulty | Not done | |
 | Gameplay rules: game modes (coop, versus, PvP, etc.) | Not done | |
-| Sound design: music | Done | Title, stage and game over music |
+| Sound design: music | Done | Title, stage, boss and game over music |
 | Sound design: procedural music | Not done | |
 | Sound design: environmental effects | Not done | |
-| Sound design: sound effects | Partial | A shot sound only |
+| Sound design: sound effects | Partial | Player shot sound is implemented; more enemy/death cues remain |
 
 ## Game Designers: Content Creation Tools
 

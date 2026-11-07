@@ -5,7 +5,7 @@
 | Folder | What is inside |
 |--------|----------------|
 | `Engine` | The game engine: ECS, systems, game loop, event bus. It knows nothing about R-Type |
-| `Common` | Code shared by the client and the server: the packet header, the binary reader and writer, and the reliable-message classes (not used yet) |
+| `Common` | Code shared by the client and the server: the packet header, binary reader/writer, snapshots, messages and reliable-message classes |
 | `Game` | The games built on the engine: `Game/RType`. It also holds what the client and the server share about R-Type: the snapshot, the inputs and the messages |
 | `Server` | The `r-type_server` executable |
 | `Client` | The `r-type_client` executable (Raylib) |
@@ -28,8 +28,9 @@ The code is split in layers that do not know each other's details:
 |-------|-------|------|
 | Engine | `Engine` | Tools to build a game: entities, components, systems, fixed-step loop, events. The same for every game |
 | Game | `rtype::Game` | The rules of R-Type, written with the engine. |
-| Server | `Server` | Network thread, sessions, the 60 Hz loop, snapshots |
-| Networking | `Client` (`ServerConnection`), `Common` | Sends inputs, receives snapshots, tracks the connection status. The packet format is shared |
+| Server | `Server` | Network thread, sessions, the 60 Hz loop, snapshots and the thread-safe multi-room lobby |
+| Networking | `Client` (`ServerConnection`), `Common` | Sends inputs, receives snapshots/events and input acknowledgements, measures RTT, and tracks connection status |
+| Prediction | `Client` (`ClientPredictionSystem`, `PredictionBuffer`, `RenderSmoothingSystem`) | Predicts the local ship, reconciles it with acknowledged server state, and smooths corrections |
 | Rendering | `Client` (`SnapshotRenderer`, `Starfield`, `Menu`, `MenuRenderer`) | Draws. Needs only the types and positions of the entities |
 | Audio | `Client` (`Audio::AudioSystem`) | Music and sound effects |
 
@@ -39,10 +40,13 @@ This is what makes a second game possible: only the game layer and the way the c
 
 ## Time
 
-The server advances the game with a **fixed step**: each tick moves the game forward by exactly 1/60 s, whatever the speed of the computer. It sends a snapshot every second tick, which is 30 times per second. The client sends its inputs once per frame (60 per second). The scrolling of the star-field uses timers as well.
+The server advances the game with a **fixed step**: each tick moves the game forward by exactly 1/60 s, whatever the speed of the computer. It sends a snapshot every second tick, which is 30 times per second. The client sends its inputs once per frame (60 per second), predicts its own movement, and reconciles it using server input acknowledgements. The scrolling of the star-field uses timers as well.
 
 ## The game world
 
 - The world is `800 x 600` units. `(0, 0)` is the **top-left corner**.
 - Sizes: ship `99 x 51`, player missile `32 x 16`, Bydos `42 x 48`, enemy missile `32 x 16`.
 - Up to 4 players (ids 0 to 3) and 128 entities per snapshot.
+- The server lobby creates independent `Room` instances, each with its own `rtype::Game`, player list and snapshot history.
+- A new connection is assigned to the first room with an available slot; when all rooms are full, a new room is created.
+- Room listing is available through `ListRoomsRequest`/`ListRoomsResponse`; creating or selecting a room from the client UI is not implemented yet.

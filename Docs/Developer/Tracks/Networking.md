@@ -7,7 +7,7 @@ This page lists the items of this track in the subject, in the same order, with 
 | Feature | Status | Notes |
 |---|---|---|
 | Ability for the server to run several different game instances in parallel | Partial | `Room` (one thread per game) is implemented and tested. The server executable still runs only one game |
-| Lobby/Room system | Partial | `Lobby` supports creating, listing, joining, leaving and deleting rooms. No protocol message currently allows clients to list or join rooms |
+| Lobby/Room system | Partial | `Lobby` supports creating, listing, joining, leaving and deleting rooms. `ListRoomsRequest`/`ListRoomsResponse` expose room discovery, but the client cannot select or join a specific room |
 | Users and identities management: storage, sessions, authentication, etc. | Not done | Only a nickname is provided through `CONNECT` |
 | Communication between users: text chat or voice | Not done | |
 | Game rules management per game instance | Not done | |
@@ -30,7 +30,7 @@ This page lists the items of this track in the subject, in the same order, with 
 
 | Feature | Status | Notes |
 |---|---|---|
-| Client-side prediction with server reconciliation | Not done | |
+| Client-side prediction with server reconciliation | Done | `ClientPredictionSystem` predicts local movement and replays unacknowledged inputs after an `InputAck` |
 | Low-frequency server updates with entity state interpolation | Done | The server sends 30 snapshots per second. The client draws the game two snapshots in the past and interpolates the positions between them (`SnapshotInterpolator`) |
 | Server-side lag compensation | Not done | |
 | Input delaying | Not done | |
@@ -38,4 +38,4 @@ This page lists the items of this track in the subject, in the same order, with 
 | Real measurements: bandwidth usage | Partial | `Bandwidth.BeforeAndAfterOneMinuteOfMatch` measures a reduction from 155 to 77 bytes per snapshot (-50%). See [Protocol](../Protocol.md), section 12. More live measurements are still needed |
 | Real measurements: responsiveness in front of lag | Not done | No measurements or tests yet |
 | **(bonus)** Live bandwidth display on the server | Done | Current bandwidth usage is displayed in KB/s while the server is running |
-| Ping/Pong (base of a lagometer) | Not done | Message types are reserved but not yet handled |
+| Ping/Pong (base of a lagometer) | Done | The client periodically sends `PING`; the server replies with `PONG` and the client exposes RTT in the F3 debug overlay |

@@ -22,7 +22,8 @@ A shoot'em up sends the full state many times per second, so an old packet is us
 
 ## Authoritative server *(to confirm)*
 
-The server runs the game and the clients only send keys and draw. A client cannot cheat on a position, and every player sees the same world. The cost: no prediction on the client, the screen is 30 snapshots per second.
+The server runs the game and remains authoritative: clients send inputs and draw the received world. The client also predicts local movement immediately, then reconciles it with server snapshots using input acknowledgements.
+This improves responsiveness without allowing a client to decide its own position.
 
 ## Binary protocol, written by hand
 

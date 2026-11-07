@@ -13,14 +13,14 @@ We want R-Type to be playable by as many people as possible. This page says what
 | Motor | Gamepad | The D-pad and both sticks move, the face buttons and the triggers shoot, Start or Select goes back to the menu. In the menu, the D-pad or a stick moves, a face button validates. A gamepad that Raylib does not know is read directly. |
 | Motor | Safe Esc | Esc only goes back. The window is closed with **Quit** or its close button. |
 | Visual | Resizable window | The menu adapts to the new size. |
-| Visual | Text size | **Options > Text size**: 125 % or 150 %. |
+| Visual | Text size | **Options > Text size**: 100 %, 125 % or 150 %. |
 | Visual | Readable text | The lowest contrast we measured is 5.6:1 on black (WCAG AA asks for 4.5:1). |
 | Visual | Selection not only by color | The selected row has a `>` marker and a filled background. |
 | Visual | Color-blind-safe accents | Sky blue and vermillion, from the Okabe-Ito palette. |
-| Audio | Volume | **Options > Volume**, from 0 % to 100 %, for all sounds. |
-| Audio | Sound design | Title, stage, boss, boss-defeat and game over music, plus the shot sound. The game runs without sound if there is no audio device. |
+| Audio | Volume | **Options > Volume**, from 0 % to 100 %, controls the master volume for music and sound effects. |
+| Audio | Sound design | Title, stage, boss, boss-defeat and game over music, plus the shot sound. Boss defeat music is non-looping and the stage music resumes afterward. The game runs without sound if there is no audio device. |
 | Cognitive | Short menu | Three entries per screen, no deep navigation. |
-| Cognitive | Same keys everywhere | A help line at the bottom of each screen reminds the keys. |
+| Cognitive | Same keys everywhere | A help line at the bottom of each menu screen reminds the player of the available controls. |
 | Cognitive | Plain messages | "The server does not answer", "Rejected: server is full", "Connection Lost". |
 | Cognitive | Easy way back | Esc returns to the menu, also from the game. If the connection is lost, the player goes back to the menu with an explanation. |
 | Documentation | Plain Markdown | Readable with a screen reader or any text browser. |
@@ -37,9 +37,9 @@ We want R-Type to be playable by as many people as possible. This page says what
 | Visual | High-contrast mode | Planned; no option is currently exposed. |
 | Visual | Reduced motion | Planned; no option is currently exposed. |
 | Visual | Players told apart without color | A number or a shape on each ship. |
-| Audio | Visual cue for every important sound | Planned; the current HUD keeps its original presentation. |
-| Audio | Separate music and effects volumes | Effects volume is configurable; a separate music slider remains to be added. |
-| Cognitive | Controls reminder | Shown before the first game. |
-| Cognitive | No flashing effects | No more than three flashes per second (WCAG 2.3.1). |
+| Audio | Visual cue for every important sound | Planned; the current HUD does not duplicate audio cues visually. |
+| Audio | Separate music and effects volumes | Planned; the current Options menu exposes one master volume for both. |
+| Cognitive | Controls reminder | Menu controls are shown in the help line; an in-game controls panel remains to be added. |
+| Cognitive | Flashing-content review | A formal WCAG 2.3.1 measurement remains to be completed for gameplay effects. |
 | Cognitive | Easier difficulty | Fewer enemies and slower missiles. |
 | Documentation | Text description for every diagram | Adding Diagrams architecture. |
